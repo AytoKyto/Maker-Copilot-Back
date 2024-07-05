@@ -33,6 +33,7 @@ use Symfony\Component\HttpFoundation\File\File;
 )]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[Vich\Uploadable]
+#[ORM\HasLifecycleCallbacks]
 class Product
 {
     #[ORM\Id]
@@ -60,24 +61,35 @@ class Product
     #[Groups(['product:read', 'product:write'])]
     private Collection $category;
 
-    #[ORM\OneToMany(targetEntity: Price::class, mappedBy: 'product')]
+    #[ORM\OneToMany(targetEntity: Price::class, mappedBy: 'product', cascade: ['persist'], orphanRemoval: true)]
     #[Groups(['product:read', 'product:write'])]
     private Collection $price;
 
     #[ORM\Column]
-    #[Groups(['product:read', 'product:write'])]
+    #[Groups(['product:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    #[Groups(['product:read', 'product:write'])]
+    #[Groups(['product:read'])]
     private ?\DateTimeImmutable $updatedAt = null;
-
-
 
     public function __construct()
     {
         $this->category = new ArrayCollection();
         $this->price = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -90,10 +102,9 @@ class Product
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -102,10 +113,9 @@ class Product
         return $this->user;
     }
 
-    public function setUser(?User $user): static
+    public function setUser(?User $user): self
     {
         $this->user = $user;
-
         return $this;
     }
 
@@ -117,7 +127,7 @@ class Product
         return $this->category;
     }
 
-    public function addCategory(Category $category): static
+    public function addCategory(Category $category): self
     {
         if (!$this->category->contains($category)) {
             $this->category->add($category);
@@ -126,10 +136,9 @@ class Product
         return $this;
     }
 
-    public function removeCategory(Category $category): static
+    public function removeCategory(Category $category): self
     {
         $this->category->removeElement($category);
-
         return $this;
     }
 
@@ -138,23 +147,9 @@ class Product
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
     }
 
     public function setImageFile(?File $imageFile = null): void
@@ -162,7 +157,7 @@ class Product
         $this->imageFile = $imageFile;
 
         if ($imageFile) {
-            $this->updatedAt = new \DateTimeImmutable('now');
+            $this->updatedAt = new \DateTimeImmutable();
         }
     }
 
@@ -189,7 +184,7 @@ class Product
         return $this->price;
     }
 
-    public function addPrice(Price $price): static
+    public function addPrice(Price $price): self
     {
         if (!$this->price->contains($price)) {
             $this->price->add($price);
@@ -199,7 +194,7 @@ class Product
         return $this;
     }
 
-    public function removePrice(Price $price): static
+    public function removePrice(Price $price): self
     {
         if ($this->price->removeElement($price)) {
             if ($price->getProduct() === $this) {

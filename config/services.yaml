@@ -1,22 +1,29 @@
 # config/services.yaml
 services:
-    # default configuration for services in *this* file
-    _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+  # default configuration for services in *this* file
+  _defaults:
+    autowire: true # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    App\:
-        resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
+  App\:
+    resource: "../src/"
+    exclude:
+      - "../src/DependencyInjection/"
+      - "../src/Entity/"
+      - "../src/Kernel.php"
 
-    App\State\UserPasswordHasher:
-        bind:
-            $processor: '@api_platform.doctrine.orm.state.persist_processor'
+  App\State\UserPasswordHasher:
+    bind:
+      $processor: "@api_platform.doctrine.orm.state.persist_processor"
 
-    App\Doctrine\CurrentUserExtension:
-        tags:
-            - { name: 'api_platform.doctrine.orm.query_extension.collection' }
-            - { name: 'api_platform.doctrine.orm.query_extension.item' }
+  App\Doctrine\CurrentUserExtension:
+    tags:
+      - { name: "api_platform.doctrine.orm.query_extension.collection" }
+      - { name: "api_platform.doctrine.orm.query_extension.item" }
+  App\EventListener\JWTCreatedListener:
+    tags:
+      - {
+          name: "kernel.event_listener",
+          event: "lexik_jwt_authentication.on_jwt_created",
+          method: "onJWTCreated",
+        }

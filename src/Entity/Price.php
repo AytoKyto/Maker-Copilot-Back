@@ -11,7 +11,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 #[ApiResource(
-    normalizationContext: ['groups' => ['product:read']]
+    normalizationContext: ['groups' => ['product:read']],
+    denormalizationContext: ['groups' => ['product:write']],
 )]
 #[ApiFilter(NumericFilter::class, properties: ['Product'])]
 #[ORM\Entity(repositoryClass: PriceRepository::class)]
@@ -20,19 +21,19 @@ class Price
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['product:read'])]
+    #[Groups(['product:read', 'product:write'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['product:read'])]
+    #[Groups(['product:read', 'product:write'])]
     private ?string $name = null;
 
     #[ORM\Column]
-    #[Groups(['product:read'])]
+    #[Groups(['product:read', 'product:write'])]
     private ?int $price = null;
 
     #[ORM\Column]
-    #[Groups(['product:read'])]
+    #[Groups(['product:read', 'product:write'])]
     private ?int $benefit = null;
 
     #[ORM\Column]
@@ -87,28 +88,21 @@ class Price
         return $this;
     }
 
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
     }
 
     public function getProduct(): ?Product
