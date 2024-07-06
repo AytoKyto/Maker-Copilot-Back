@@ -39,7 +39,7 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['product:read'])]
+    #[Groups(['product:read', 'product:write'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -63,7 +63,7 @@ class Product
 
     #[ORM\OneToMany(targetEntity: Price::class, mappedBy: 'product', cascade: ['persist'], orphanRemoval: true)]
     #[Groups(['product:read', 'product:write'])]
-    private Collection $price;
+    private Collection $prices;
 
     #[ORM\Column]
     #[Groups(['product:read'])]
@@ -76,7 +76,7 @@ class Product
     public function __construct()
     {
         $this->category = new ArrayCollection();
-        $this->price = new ArrayCollection();
+        $this->prices = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -179,15 +179,15 @@ class Product
     /**
      * @return Collection<int, Price>
      */
-    public function getPrice(): Collection
+    public function getPrices(): Collection
     {
-        return $this->price;
+        return $this->prices;
     }
 
     public function addPrice(Price $price): self
     {
-        if (!$this->price->contains($price)) {
-            $this->price->add($price);
+        if (!$this->prices->contains($price)) {
+            $this->prices->add($price);
             $price->setProduct($this);
         }
 
@@ -196,7 +196,7 @@ class Product
 
     public function removePrice(Price $price): self
     {
-        if ($this->price->removeElement($price)) {
+        if ($this->prices->removeElement($price)) {
             if ($price->getProduct() === $this) {
                 $price->setProduct(null);
             }

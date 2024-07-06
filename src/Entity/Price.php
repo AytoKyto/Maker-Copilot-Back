@@ -1,51 +1,64 @@
 <?php
+// src/Entity/Price.php
 
 namespace App\Entity;
 
 use App\Repository\PriceRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Doctrine\Orm\Filter\NumericFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-
 #[ApiResource(
-    normalizationContext: ['groups' => ['product:read']],
-    denormalizationContext: ['groups' => ['product:write']],
+    normalizationContext: ['groups' => ['price:read']],
+    denormalizationContext: ['groups' => ['price:write']],
 )]
-#[ApiFilter(NumericFilter::class, properties: ['Product'])]
 #[ORM\Entity(repositoryClass: PriceRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Price
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['product:read', 'product:write'])]
+    #[Groups(['price:read', 'product:read', 'product:write'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['product:read', 'product:write'])]
+    #[Groups(['price:read', 'product:read', 'product:write'])]
     private ?string $name = null;
 
     #[ORM\Column]
-    #[Groups(['product:read', 'product:write'])]
+    #[Groups(['price:read', 'product:read', 'product:write'])]
     private ?int $price = null;
 
     #[ORM\Column]
-    #[Groups(['product:read', 'product:write'])]
+    #[Groups(['price:read', 'product:read', 'product:write'])]
     private ?int $benefit = null;
 
     #[ORM\Column]
-    #[Groups(['product:read'])]
+    #[Groups(['price:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    #[Groups(['product:read'])]
+    #[Groups(['price:read'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'price')]
+    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'prices')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['price:read', 'product:write'])]
     private ?Product $product = null;
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -57,10 +70,9 @@ class Price
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -69,10 +81,9 @@ class Price
         return $this->price;
     }
 
-    public function setPrice(int $price): static
+    public function setPrice(int $price): self
     {
         $this->price = $price;
-
         return $this;
     }
 
@@ -81,18 +92,10 @@ class Price
         return $this->benefit;
     }
 
-    public function setBenefit(int $benefit): static
+    public function setBenefit(int $benefit): self
     {
         $this->benefit = $benefit;
-
         return $this;
-    }
-
-    #[ORM\PrePersist]
-    public function setCreatedAtValue(): void
-    {
-        $this->createdAt = new \DateTimeImmutable();
-        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
@@ -110,10 +113,9 @@ class Price
         return $this->product;
     }
 
-    public function setProduct(?Product $product): static
+    public function setProduct(?Product $product): self
     {
         $this->product = $product;
-
         return $this;
     }
 }
