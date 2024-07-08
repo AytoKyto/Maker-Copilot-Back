@@ -36,11 +36,11 @@ class Price
 
     #[ORM\Column]
     #[Groups(['price:read', 'product:read', 'product:write'])]
-    private ?int $price = null;
+    private ?float $price = null;
 
     #[ORM\Column]
     #[Groups(['price:read', 'product:read', 'product:write'])]
-    private ?int $benefit = null;
+    private ?float $benefit = null;
 
     #[ORM\Column]
     #[Groups(['price:read'])]
@@ -52,11 +52,26 @@ class Price
 
     #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'prices')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['price:read', 'product:write'])]
     private ?Product $product = null;
 
     #[ORM\OneToMany(targetEntity: SalesProduct::class, mappedBy: 'price')]
     private Collection $salesProducts;
+
+    #[ORM\Column]
+    #[Groups(['price:read', 'product:write'])]
+    private ?float $ursaf = null;
+
+    #[ORM\Column]
+    #[Groups(['price:read', 'product:write'])]
+    private ?float $expense = null;
+
+    #[ORM\Column]
+    #[Groups(['price:read', 'product:write'])]
+    private ?float $commission = null;
+
+    #[ORM\Column]
+    #[Groups(['price:read', 'product:write'])]
+    private ?float $time = null;
 
     public function __construct()
     {
@@ -92,23 +107,23 @@ class Price
         return $this;
     }
 
-    public function getPrice(): ?int
+    public function getPrice(): ?float
     {
         return $this->price;
     }
 
-    public function setPrice(int $price): self
+    public function setPrice(float $price): self
     {
         $this->price = $price;
         return $this;
     }
 
-    public function getBenefit(): ?int
+    public function getBenefit(): ?float
     {
         return $this->benefit;
     }
 
-    public function setBenefit(int $benefit): self
+    public function setBenefit(float $benefit): self
     {
         $this->benefit = $benefit;
         return $this;
@@ -161,6 +176,54 @@ class Price
                 $salesProduct->setPrice(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUrsaf(): ?float
+    {
+        return $this->ursaf;
+    }
+
+    public function setUrsaf(float $ursaf): static
+    {
+        $this->ursaf = $ursaf;
+
+        return $this;
+    }
+
+    public function getExpense(): ?float
+    {
+        return $this->expense;
+    }
+
+    public function setExpense(float $expense): static
+    {
+        $this->expense = $expense;
+
+        return $this;
+    }
+
+    public function getCommission(): ?float
+    {
+        return $this->commission;
+    }
+
+    public function setCommission(float $commission): static
+    {
+        $this->commission = $commission;
+
+        return $this;
+    }
+
+    public function getTime(): ?float
+    {
+        return $this->time;
+    }
+
+    public function setTime(float $time): static
+    {
+        $this->time = $time;
 
         return $this;
     }
