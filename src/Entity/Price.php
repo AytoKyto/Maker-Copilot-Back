@@ -4,13 +4,21 @@
 namespace App\Entity;
 
 use App\Repository\PriceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 
 #[ApiResource(
     normalizationContext: ['groups' => ['price:read']],
     denormalizationContext: ['groups' => ['price:write']],
+    operations: [
+        new GetCollection(),
+        new Get(),
+    ]
 )]
 #[ORM\Entity(repositoryClass: PriceRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -46,6 +54,14 @@ class Price
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['price:read', 'product:write'])]
     private ?Product $product = null;
+
+    #[ORM\OneToMany(targetEntity: SalesProduct::class, mappedBy: 'price')]
+    private Collection $salesProducts;
+
+    public function __construct()
+    {
+        $this->salesProducts = new ArrayCollection();
+    }
 
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
@@ -116,6 +132,36 @@ class Price
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SalesProduct>
+     */
+    public function getSalesProducts(): Collection
+    {
+        return $this->salesProducts;
+    }
+
+    public function addSalesProduct(SalesProduct $salesProduct): static
+    {
+        if (!$this->salesProducts->contains($salesProduct)) {
+            $this->salesProducts->add($salesProduct);
+            $salesProduct->setPrice($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSalesProduct(SalesProduct $salesProduct): static
+    {
+        if ($this->salesProducts->removeElement($salesProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($salesProduct->getPrice() === $this) {
+                $salesProduct->setPrice(null);
+            }
+        }
+
         return $this;
     }
 }

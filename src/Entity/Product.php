@@ -73,10 +73,14 @@ class Product
     #[Groups(['product:read'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\OneToMany(targetEntity: SalesProduct::class, mappedBy: 'product')]
+    private Collection $salesProducts;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
         $this->prices = new ArrayCollection();
+        $this->salesProducts = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -199,6 +203,36 @@ class Product
         if ($this->prices->removeElement($price)) {
             if ($price->getProduct() === $this) {
                 $price->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SalesProduct>
+     */
+    public function getSalesProducts(): Collection
+    {
+        return $this->salesProducts;
+    }
+
+    public function addSalesProduct(SalesProduct $salesProduct): static
+    {
+        if (!$this->salesProducts->contains($salesProduct)) {
+            $this->salesProducts->add($salesProduct);
+            $salesProduct->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSalesProduct(SalesProduct $salesProduct): static
+    {
+        if ($this->salesProducts->removeElement($salesProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($salesProduct->getProduct() === $this) {
+                $salesProduct->setProduct(null);
             }
         }
 

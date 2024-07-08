@@ -32,7 +32,7 @@ security:
   access_control:
     - { path: ^/api/login, roles: PUBLIC_ACCESS }
     - { path: ^/api/register, roles: PUBLIC_ACCESS }
-    - { path: ^/api/token/refresh, roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/api/token/refresh, roles: PUBLIC_ACCESS }
     - { path: ^/api/products, roles: IS_AUTHENTICATED_FULLY }
     - { path: ^/api, roles: PUBLIC_ACCESS }
 

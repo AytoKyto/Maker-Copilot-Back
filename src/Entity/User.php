@@ -70,10 +70,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read', 'user:create', 'user:update'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\OneToMany(targetEntity: SalesChannel::class, mappedBy: 'user')]
+    private Collection $salesChannels;
+
+    #[ORM\OneToMany(targetEntity: Client::class, mappedBy: 'user')]
+    private Collection $clients;
+
+    #[ORM\OneToMany(targetEntity: Sale::class, mappedBy: 'user')]
+    private Collection $sales;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->salesChannels = new ArrayCollection();
+        $this->clients = new ArrayCollection();
+        $this->sales = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -235,6 +247,96 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($category->getUser() === $this) {
                 $category->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SalesChannel>
+     */
+    public function getSalesChannels(): Collection
+    {
+        return $this->salesChannels;
+    }
+
+    public function addSalesChannel(SalesChannel $salesChannel): static
+    {
+        if (!$this->salesChannels->contains($salesChannel)) {
+            $this->salesChannels->add($salesChannel);
+            $salesChannel->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSalesChannel(SalesChannel $salesChannel): static
+    {
+        if ($this->salesChannels->removeElement($salesChannel)) {
+            // set the owning side to null (unless already changed)
+            if ($salesChannel->getUser() === $this) {
+                $salesChannel->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Client>
+     */
+    public function getClients(): Collection
+    {
+        return $this->clients;
+    }
+
+    public function addClient(Client $client): static
+    {
+        if (!$this->clients->contains($client)) {
+            $this->clients->add($client);
+            $client->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClient(Client $client): static
+    {
+        if ($this->clients->removeElement($client)) {
+            // set the owning side to null (unless already changed)
+            if ($client->getUser() === $this) {
+                $client->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sale>
+     */
+    public function getSales(): Collection
+    {
+        return $this->sales;
+    }
+
+    public function addSale(Sale $sale): static
+    {
+        if (!$this->sales->contains($sale)) {
+            $this->sales->add($sale);
+            $sale->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSale(Sale $sale): static
+    {
+        if ($this->sales->removeElement($sale)) {
+            // set the owning side to null (unless already changed)
+            if ($sale->getUser() === $this) {
+                $sale->setUser(null);
             }
         }
 
