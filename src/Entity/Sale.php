@@ -45,10 +45,6 @@ class Sale
     #[Groups(['sale:read', 'sale:write'])]
     private ?int $nbProduct = null;
 
-    #[ORM\Column(nullable: true)]
-    #[Groups(['sale:read', 'sale:write'])]
-    private ?int $nbClient = null;
-
     #[ORM\ManyToOne(inversedBy: 'sales')]
     #[Groups(['sale:read', 'sale:write'])]
     private ?User $user = null;
@@ -59,6 +55,26 @@ class Sale
 
     #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\Column]
+    #[Groups(['sale:read', 'sale:write'])]
+    private ?float $ursaf = null;
+
+    #[ORM\Column]
+    #[Groups(['sale:read', 'sale:write'])]
+    private ?float $expense = null;
+
+    #[ORM\Column]
+    #[Groups(['sale:read', 'sale:write'])]
+    private ?float $commission = null;
+
+    #[ORM\Column]
+    #[Groups(['sale:read', 'sale:write'])]
+    private ?float $time = null;
+
+    #[ORM\Column(length: 255)]
+    #[Groups(['sale:read', 'sale:write'])]
+    private ?string $name = null;
 
     public function __construct()
     {
@@ -75,7 +91,6 @@ class Sale
             $this->updatedAt = new \DateTimeImmutable();
         }
         $this->nbProduct = $this->nbProduct ?? 0;
-        $this->nbClient = $this->nbClient ?? 0;
     }
 
     #[ORM\PreUpdate]
@@ -172,17 +187,6 @@ class Sale
         return $this;
     }
 
-    public function getNbClient(): ?int
-    {
-        return $this->nbClient;
-    }
-
-    public function setNbClient(int $nbClient): static
-    {
-        $this->nbClient = $nbClient;
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -191,6 +195,66 @@ class Sale
     public function setUser(?User $user): static
     {
         $this->user = $user;
+        return $this;
+    }
+
+    public function getUrsaf(): ?float
+    {
+        return $this->ursaf;
+    }
+
+    public function setUrsaf(float $ursaf): static
+    {
+        $this->ursaf = $ursaf;
+
+        return $this;
+    }
+
+    public function getExpense(): ?float
+    {
+        return $this->expense;
+    }
+
+    public function setExpense(float $expense): static
+    {
+        $this->expense = $expense;
+
+        return $this;
+    }
+
+    public function getCommission(): ?float
+    {
+        return $this->commission;
+    }
+
+    public function setCommission(float $commission): static
+    {
+        $this->commission = $commission;
+
+        return $this;
+    }
+
+    public function getTime(): ?float
+    {
+        return $this->time;
+    }
+
+    public function setTime(float $time): static
+    {
+        $this->time = $time;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
+
         return $this;
     }
 }

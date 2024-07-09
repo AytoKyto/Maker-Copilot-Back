@@ -58,19 +58,19 @@ class Price
     private Collection $salesProducts;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:write'])]
+    #[Groups(['price:read', 'product:read', 'product:write'])]
     private ?float $ursaf = null;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:write'])]
+    #[Groups(['price:read', 'product:read', 'product:write'])]
     private ?float $expense = null;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:write'])]
+    #[Groups(['price:read', 'product:read', 'product:write'])]
     private ?float $commission = null;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:write'])]
+    #[Groups(['price:read', 'product:read', 'product:write'])]
     private ?float $time = null;
 
     public function __construct()

@@ -79,6 +79,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Sale::class, mappedBy: 'user')]
     private Collection $sales;
 
+    #[ORM\OneToMany(targetEntity: Spent::class, mappedBy: 'user')]
+    private Collection $spents;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -86,6 +89,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->salesChannels = new ArrayCollection();
         $this->clients = new ArrayCollection();
         $this->sales = new ArrayCollection();
+        $this->spents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -337,6 +341,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($sale->getUser() === $this) {
                 $sale->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Spent>
+     */
+    public function getSpents(): Collection
+    {
+        return $this->spents;
+    }
+
+    public function addSpent(Spent $spent): static
+    {
+        if (!$this->spents->contains($spent)) {
+            $this->spents->add($spent);
+            $spent->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSpent(Spent $spent): static
+    {
+        if ($this->spents->removeElement($spent)) {
+            // set the owning side to null (unless already changed)
+            if ($spent->getUser() === $this) {
+                $spent->setUser(null);
             }
         }
 
