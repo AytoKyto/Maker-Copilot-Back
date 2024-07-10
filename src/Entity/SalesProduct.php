@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
+    paginationEnabled: false,
     normalizationContext: ['groups' => ['sale:read']],
     denormalizationContext: ['groups' => ['sale:write']],
 )]

@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
+    paginationEnabled: false,
     normalizationContext: ['groups' => ['product:read']]
 )]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]

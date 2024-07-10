@@ -13,6 +13,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 
 #[ApiResource(
+    paginationEnabled: false,
     normalizationContext: ['groups' => ['price:read']],
     denormalizationContext: ['groups' => ['price:write']],
     operations: [

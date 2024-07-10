@@ -19,6 +19,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 
 #[ApiResource(
+    paginationEnabled: false,
     normalizationContext: ['groups' => ['product:read']],
     denormalizationContext: ['groups' => ['product:write']],
     security: "is_granted('ROLE_USER')", // Global access control: only users with ROLE_USER can access

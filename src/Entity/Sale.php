@@ -35,15 +35,15 @@ class Sale
 
     #[ORM\Column]
     #[Groups(['sale:read', 'sale:write'])]
-    private ?int $price = null;
+    private ?float $price = null;
 
     #[ORM\Column]
     #[Groups(['sale:read', 'sale:write'])]
-    private ?int $benefit = null;
+    private ?float $benefit = null;
 
     #[ORM\Column(nullable: true)]
     #[Groups(['sale:read', 'sale:write'])]
-    private ?int $nbProduct = null;
+    private ?float $nbProduct = null;
 
     #[ORM\ManyToOne(inversedBy: 'sales')]
     #[Groups(['sale:read', 'sale:write'])]
@@ -154,23 +154,23 @@ class Sale
         return $this;
     }
 
-    public function getPrice(): ?int
+    public function getPrice(): ?float
     {
         return $this->price;
     }
 
-    public function setPrice(int $price): static
+    public function setPrice(float $price): static
     {
         $this->price = $price;
         return $this;
     }
 
-    public function getBenefit(): ?int
+    public function getBenefit(): ?float
     {
         return $this->benefit;
     }
 
-    public function setBenefit(int $benefit): static
+    public function setBenefit(float $benefit): static
     {
         $this->benefit = $benefit;
         return $this;
