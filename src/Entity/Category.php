@@ -33,10 +33,12 @@ class Category
     private Collection $products;
 
     #[ORM\Column]
+    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
     #[Groups(['product:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
+    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
     #[Groups(['product:read'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
@@ -48,7 +50,17 @@ class Category
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
     {
-        $this->createdAt = new \DateTimeImmutable();
+        if ($this->createdAt === null) {
+            $this->createdAt = new \DateTimeImmutable();
+        }
+        if ($this->updatedAt === null) {
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
         $this->updatedAt = new \DateTimeImmutable();
     }
 
@@ -117,5 +129,4 @@ class Category
     {
         return $this->updatedAt;
     }
-
 }
