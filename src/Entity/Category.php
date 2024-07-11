@@ -32,12 +32,10 @@ class Category
     #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'category')]
     private Collection $products;
 
-    #[ORM\Column]
     #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
     #[Groups(['product:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
     #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
     #[Groups(['product:read'])]
     private ?\DateTimeImmutable $updatedAt = null;
