@@ -1,6 +1,5 @@
 <?php
-
-// src/Entity/ViewBenefitMonthProduct.php
+// src/Entity/ViewCanalMonthProduct.php
 
 namespace App\Entity;
 
@@ -14,19 +13,19 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 
 #[ORM\Entity(readOnly: true)]
-#[ORM\Table(name: "view_benefit_month_product")]
+#[ORM\Table(name: "view_canal_month_product")]
 #[ApiResource(
     paginationEnabled: false,
     operations: [
         new GetCollection(),
         new Get(),
     ]
-)]
+)] 
 #[ApiFilter(SearchFilter::class, properties: ['product_id' => 'exact'])]
 #[ApiFilter(RangeFilter::class, properties: ['month', 'years'])]
-#[ApiFilter(OrderFilter::class, properties: ['date_full' => 'DESC'])]
+#[ApiFilter(OrderFilter::class, properties: ['date_full', 'price_value' => 'DESC'])]
 
-class ViewBenefitMonthProduct
+class ViewCanalMonthProduct
 {
     #[ORM\Column(type: "integer")]
     public int $user_id;
@@ -36,13 +35,19 @@ class ViewBenefitMonthProduct
     public int $product_id;
 
     #[ORM\Column(type: "integer")]
-    public int $nb_product;
+    public int $canal_id;
+
+    #[ORM\Column(type: "string", length: 255)]
+    public string $name;
 
     #[ORM\Column(type: "float")]
     public float $benefit_value;
 
     #[ORM\Column(type: "float")]
     public float $price_value;
+
+    #[ORM\Column(type: "integer")]
+    public int $nb_product_value;
 
     #[ORM\Column(type: "float")]
     public float $ursaf_value;

@@ -82,6 +82,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Spent::class, mappedBy: 'user')]
     private Collection $spents;
 
+    #[ORM\Column(nullable: true)]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
+    private ?int $urssaf_pourcent = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
+    private ?int $urssaf_type = null;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -138,7 +146,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-        /**
+    /**
      * @see PasswordAuthenticatedUserInterface
      */
     public function getPassword(): string
@@ -376,5 +384,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-}
 
+    public function getUrssafPourcent(): ?int
+    {
+        return $this->urssaf_pourcent;
+    }
+
+    public function setUrssafPourcent(int $urssaf_pourcent): static
+    {
+        $this->urssaf_pourcent = $urssaf_pourcent;
+
+        return $this;
+    }
+
+    public function getUrssafType(): ?int
+    {
+        return $this->urssaf_type;
+    }
+
+    public function setUrssafType(?int $urssaf_type): static
+    {
+        $this->urssaf_type = $urssaf_type;
+
+        return $this;
+    }
+}

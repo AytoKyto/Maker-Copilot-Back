@@ -1,21 +1,22 @@
-CREATE VIEW view_benefit_month_product AS 
-SELECT 
+CREATE VIEW view_benefit_month_product AS
+SELECT
     sale.user_id,
     sales_product.product_id,
-    SUM(price.benefit) AS benefit_value,
-    SUM(price.price) AS price_value,
-    AVG(price.ursaf) AS ursaf_value,
-    SUM(price.expense) AS expense_value,
-    AVG(price.commission) AS commission_value,
-    SUM(price.time) AS time_value,
-    (SUM(price.benefit) / SUM(price.price)) * 100 AS benefit_pourcent,
+    COUNT(sales_product.product_id) as nb_product,
+    IFNULL(SUM(price.benefit), 0) AS benefit_value,
+    IFNULL(SUM(price.price), 0) AS price_value,
+    IFNULL(AVG(price.ursaf), 0) AS ursaf_value,
+    IFNULL(SUM(price.expense), 0) AS expense_value,
+    IFNULL(AVG(price.commission), 0) AS commission_value,
+    IFNULL(SUM(price.time), 0) AS time_value,
+    IFNULL((SUM(price.benefit) / NULLIF(SUM(price.price), 0)) * 100, 0) AS benefit_pourcent,
     DATE_FORMAT(sale.created_at, '%Y') AS years,
     DATE_FORMAT(sale.created_at, '%m') AS month,
     DATE_FORMAT(sale.created_at, '%Y-%m') AS date_full
 FROM
-    sales_product sales_product
-LEFT JOIN sale sale ON sales_product.sale_id = sale.id
-LEFT JOIN price price ON sales_product.price_id = price.id
+    sales_product
+    LEFT JOIN sale ON sales_product.sale_id = sale.id
+    LEFT JOIN price ON sales_product.price_id = price.id
 GROUP BY
     sale.user_id,
     sales_product.product_id,

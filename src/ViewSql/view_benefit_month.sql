@@ -1,9 +1,9 @@
-CREATE VIEW view_benefit_month AS 
-SELECT 
+CREATE VIEW view_benefit_month AS
+SELECT
     user_id,
-    SUM(benefit) AS benefit_value,
-    SUM(price) AS price_value,
-    (SUM(benefit) / SUM(price)) * 100 AS benefit_pourcent,
+    IFNULL(SUM(benefit), 0) AS benefit_value,
+    IFNULL(SUM(price), 0) AS price_value,
+    IFNULL((SUM(benefit) / SUM(price)) * 100, 0) AS benefit_pourcent,
     DATE_FORMAT(created_at, '%Y') AS years,
     DATE_FORMAT(created_at, '%m') AS month,
     DATE_FORMAT(created_at, '%Y-%m') AS date_full

@@ -1,7 +1,8 @@
-CREATE VIEW view_canal_month AS
+CREATE VIEW view_canal_month_product AS
 SELECT
     sp.name AS name,
     sp.user_id AS user_id,
+    sales_product.product_id AS product_id,
     sale.canal_id,
     IFNULL(SUM(sale.benefit), 0) AS benefit_value,
     IFNULL(SUM(sale.price), 0) AS price_value,
@@ -17,10 +18,12 @@ SELECT
 FROM
     sale sale
     LEFT JOIN sales_channel sp ON sale.canal_id = sp.id
+    LEFT JOIN sales_product sales_product ON sale.id = sales_product.sale_id
 GROUP BY
     sp.name,
     sp.user_id,
     sale.canal_id,
+    sales_product.product_id,
     DATE_FORMAT(sale.created_at, '%Y'),
     DATE_FORMAT(sale.created_at, '%m'),
     DATE_FORMAT(sale.created_at, '%Y-%m');
