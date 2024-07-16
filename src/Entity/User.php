@@ -20,16 +20,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 #[ApiResource(
+    normalizationContext: ['groups' => ['user:read']],
+    denormalizationContext: ['groups' => ['user:write']],
     operations: [
         new GetCollection(),
-        new Post(processor: UserPasswordHasher::class, validationContext: ['groups' => ['Default', 'user:create']]),
+        new Post(processor: UserPasswordHasher::class, validationContext: ['groups' => ['Default', 'user:write']]),
         new Get(),
         new Put(processor: UserPasswordHasher::class),
         new Patch(processor: UserPasswordHasher::class),
         new Delete(),
     ],
-    normalizationContext: ['groups' => ['user:read']],
-    denormalizationContext: ['groups' => ['user:create', 'user:update']],
 )]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -42,15 +42,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Assert\NotBlank]
     #[Assert\Email]
-    #[Groups(['user:read', 'user:create', 'user:update'])]
+    #[Groups(['user:read', 'user:write'])]
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column]
     private ?string $password = null;
 
-    #[Assert\NotBlank(groups: ['user:create'])]
-    #[Groups(['user:create', 'user:update'])]
+    #[Assert\NotBlank(groups: ['user:write'])]
+    #[Groups(['user:write'])]
     private ?string $plainPassword = null;
 
     #[ORM\Column(type: 'json')]
@@ -62,12 +62,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Category::class, mappedBy: 'user')]
     private Collection $categories;
 
+    #[Groups(['user:read', 'user:write'])]
+    #[ORM\Column(nullable: true)]
+    private ?int $urssaf_pourcent = null;
+
+    #[Groups(['user:read', 'user:write'])]
+    #[ORM\Column(nullable: true)]
+    private ?int $urssaf_type = null;
+
     #[ORM\Column]
-    #[Groups(['user:read', 'user:create', 'user:update'])]
+    #[Groups(['user:read', 'user:write'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    #[Groups(['user:read', 'user:create', 'user:update'])]
+    #[Groups(['user:read', 'user:write'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\OneToMany(targetEntity: SalesChannel::class, mappedBy: 'user')]
@@ -81,14 +89,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(targetEntity: Spent::class, mappedBy: 'user')]
     private Collection $spents;
-
-    #[ORM\Column(nullable: true)]
-    #[Groups(['user:read', 'user:create', 'user:update'])]
-    private ?int $urssaf_pourcent = null;
-
-    #[ORM\Column(nullable: true)]
-    #[Groups(['user:read', 'user:create', 'user:update'])]
-    private ?int $urssaf_type = null;
 
     public function __construct()
     {
@@ -390,7 +390,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->urssaf_pourcent;
     }
 
-    public function setUrssafPourcent(int $urssaf_pourcent): static
+    public function setUrssafPourcent(?int $urssaf_pourcent): static
     {
         $this->urssaf_pourcent = $urssaf_pourcent;
 
