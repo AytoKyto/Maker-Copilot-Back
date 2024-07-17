@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\Collection;
 
 #[ApiResource(
     paginationEnabled: false,
-    normalizationContext: ['groups' => ['sale:read']],
+    normalizationContext: ['groups' => ['sale:read', 'sales_channel:read']],
     denormalizationContext: ['groups' => ['sale:write']],
 )]
 #[ORM\Entity(repositoryClass: SalesChannelRepository::class)]
@@ -21,20 +21,21 @@ class SalesChannel
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['sale:read'])]
+    #[Groups(['sale:read', 'sales_channel:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['sale:read'])]
+    #[Groups(['sale:read', 'sales_channel:read'])]
     private ?string $name = null;
 
     #[ORM\OneToMany(targetEntity: Sale::class, mappedBy: 'canal')]
-    #[Groups(['sales_channel:read'])]
     private Collection $sales;
 
+    #[Groups(['sales_channel:read'])]
     #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[Groups(['sales_channel:read'])]
     #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 

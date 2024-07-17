@@ -56,19 +56,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
+    #[Groups(['user:read', 'user:write'])]
+    #[ORM\Column(nullable: true)]
+    private ?float $urssafPourcent = null;
+
+    #[Groups(['user:read', 'user:write'])]
+    #[ORM\Column(nullable: true)]
+    private ?int $urssafType = null;
+
+
     #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'user')]
     private Collection $products;
 
     #[ORM\OneToMany(targetEntity: Category::class, mappedBy: 'user')]
     private Collection $categories;
-
-    #[Groups(['user:read', 'user:write'])]
-    #[ORM\Column(nullable: true)]
-    private ?int $urssaf_pourcent = null;
-
-    #[Groups(['user:read', 'user:write'])]
-    #[ORM\Column(nullable: true)]
-    private ?int $urssaf_type = null;
 
     #[ORM\Column]
     #[Groups(['user:read', 'user:write'])]
@@ -385,26 +386,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getUrssafPourcent(): ?int
+    public function getUrssafPourcent(): ?float
     {
-        return $this->urssaf_pourcent;
+        return $this->urssafPourcent;
     }
 
-    public function setUrssafPourcent(?int $urssaf_pourcent): static
+    public function setUrssafPourcent(?float $urssafPourcent): static
     {
-        $this->urssaf_pourcent = $urssaf_pourcent;
+        $this->urssafPourcent = $urssafPourcent;
 
         return $this;
     }
 
     public function getUrssafType(): ?int
     {
-        return $this->urssaf_type;
+        return $this->urssafType;
     }
 
-    public function setUrssafType(?int $urssaf_type): static
+    public function setUrssafType(?int $urssafType): static
     {
-        $this->urssaf_type = $urssaf_type;
+        $this->urssafType = $urssafType;
 
         return $this;
     }
