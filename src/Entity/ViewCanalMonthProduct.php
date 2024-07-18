@@ -21,7 +21,7 @@ use ApiPlatform\Metadata\GetCollection;
         new Get(),
     ]
 )] 
-#[ApiFilter(SearchFilter::class, properties: ['product_id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['product_id' => 'exact', 'month' => 'exact', 'years' => 'exact'])]
 #[ApiFilter(RangeFilter::class, properties: ['month', 'years'])]
 #[ApiFilter(OrderFilter::class, properties: ['date_full', 'price_value' => 'DESC'])]
 
@@ -30,11 +30,11 @@ class ViewCanalMonthProduct
     #[ORM\Column(type: "integer")]
     public int $user_id;
 
-    #[ORM\Id]
     #[ORM\Column(type: "integer")]
     public int $product_id;
 
     #[ORM\Column(type: "integer")]
+    #[ORM\Id]
     public int $canal_id;
 
     #[ORM\Column(type: "string", length: 255)]

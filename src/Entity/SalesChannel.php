@@ -25,7 +25,7 @@ class SalesChannel
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['sale:read', 'sales_channel:read'])]
+    #[Groups(['sale:read', 'sales_channel:read', 'sale:write'])]
     private ?string $name = null;
 
     #[ORM\OneToMany(targetEntity: Sale::class, mappedBy: 'canal')]
@@ -39,6 +39,7 @@ class SalesChannel
     #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[Groups(['sale:read', 'sales_channel:read', 'sale:write'])]
     #[ORM\ManyToOne(inversedBy: 'salesChannels')]
     private ?User $user = null;
 

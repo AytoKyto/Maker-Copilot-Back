@@ -10,11 +10,15 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
 
 #[ApiResource(
     normalizationContext: ['groups' => ['sale:read']],
     denormalizationContext: ['groups' => ['sale:write']],
+    order: ['createdAt' => 'ASC']
 )]
+#[ApiFilter(OrderFilter::class, properties: ['date_full' => 'DESC', 'price_value' => 'DESC'])]
 #[ORM\Entity(repositoryClass: SaleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class Sale

@@ -9,7 +9,10 @@ SELECT
     IFNULL(SUM(price.expense), 0) AS expense_value,
     IFNULL(AVG(price.commission), 0) AS commission_value,
     IFNULL(SUM(price.time), 0) AS time_value,
-    IFNULL((SUM(price.benefit) / NULLIF(SUM(price.price), 0)) * 100, 0) AS benefit_pourcent,
+    IFNULL(
+        (SUM(price.benefit) / NULLIF(SUM(price.price), 0)) * 100,
+        0
+    ) AS benefit_pourcent,
     DATE_FORMAT(sale.created_at, '%Y') AS years,
     DATE_FORMAT(sale.created_at, '%m') AS month,
     DATE_FORMAT(sale.created_at, '%Y-%m') AS date_full
