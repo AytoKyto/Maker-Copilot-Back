@@ -51,7 +51,7 @@ class Price
     #[Groups(['price:read'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'prices')]
+    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'prices', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
