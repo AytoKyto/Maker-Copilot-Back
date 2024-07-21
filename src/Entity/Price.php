@@ -9,8 +9,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
-use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
 
 #[ApiResource(
     paginationEnabled: false,
@@ -19,6 +23,10 @@ use ApiPlatform\Metadata\GetCollection;
     operations: [
         new GetCollection(),
         new Get(),
+        new Post(),
+        new Patch(),
+        new Put(),
+        new Delete(),
     ]
 )]
 #[ORM\Entity(repositoryClass: PriceRepository::class)]
@@ -28,30 +36,31 @@ class Price
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write'])]
+    #[Groups(['price:read', 'product:read', 'product:write', 'product:update'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['price:read', 'product:read', 'product:write'])]
+    #[Groups(['price:read', 'product:read', 'product:write', 'product:update'])]
     private ?string $name = null;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write'])]
+    #[Groups(['price:read', 'product:read', 'product:write', 'product:update'])]
     private ?float $price = null;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write'])]
+    #[Groups(['price:read', 'product:read', 'product:write', 'product:update'])]
     private ?float $benefit = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
     #[Groups(['price:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
     #[Groups(['price:read'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'prices', cascade: ['persist'])]
+    #[Groups(['price:read', 'product:read', 'product:write', 'product:update'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
@@ -59,19 +68,19 @@ class Price
     private Collection $salesProducts;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write'])]
+    #[Groups(['price:read', 'product:read', 'product:write', 'product:update'])]
     private ?float $ursaf = null;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write'])]
+    #[Groups(['price:read', 'product:read', 'product:write', 'product:update'])]
     private ?float $expense = null;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write'])]
+    #[Groups(['price:read', 'product:read', 'product:write', 'product:update'])]
     private ?float $commission = null;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write'])]
+    #[Groups(['price:read', 'product:read', 'product:write', 'product:update'])]
     private ?float $time = null;
 
     public function __construct()

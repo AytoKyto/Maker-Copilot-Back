@@ -33,7 +33,7 @@ class Sale
     #[Groups(['sale:read', 'sale:write'])]
     private ?SalesChannel $canal = null;
 
-    #[ORM\OneToMany(targetEntity: SalesProduct::class, mappedBy: 'sale', cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: SalesProduct::class, mappedBy: 'sale')]
     #[Groups(['sale:read', 'sale:write'])]
     private Collection $salesProducts;
 

@@ -28,7 +28,7 @@ use Symfony\Component\HttpFoundation\File\File;
         new Get(),
         new Post(),
         new Patch(),
-        new Put(),
+        new Put(denormalizationContext: ['groups' => ['product:update']]),
         new Delete(),
     ]
 )]
@@ -40,11 +40,11 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['product:read', 'product:write'])]
+    #[Groups(['product:read', 'product:write', 'product:update'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['product:read', 'product:write'])]
+    #[Groups(['product:read', 'product:write', 'product:update'])]
     private ?string $name = null;
 
     #[Vich\UploadableField(mapping: 'product_images', fileNameProperty: 'imageName')]
@@ -55,22 +55,22 @@ class Product
     private ?string $imageName = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
-    #[Groups(['product:read', 'product:write'])]
+    #[Groups(['product:read', 'product:write', 'product:update'])]
     private ?User $user = null;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'products')]
-    #[Groups(['product:read', 'product:write'])]
+    #[Groups(['product:read', 'product:write', 'product:update'])]
     private Collection $category;
 
-    #[ORM\OneToMany(targetEntity: Price::class, mappedBy: 'product', cascade: ['persist'], orphanRemoval: true)]
-    #[Groups(['product:read', 'product:write'])]
+    #[ORM\OneToMany(targetEntity: Price::class, mappedBy: 'product', cascade: ['persist', 'remove'])]
+    #[Groups(['product:read', 'product:write', 'product:update'])]
     private Collection $prices;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
     #[Groups(['product:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
     #[Groups(['product:read'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
