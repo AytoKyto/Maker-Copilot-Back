@@ -36,19 +36,19 @@ class Price
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write', 'product:update'])]
+    #[Groups(['price:read', 'product:read', 'product:write'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['price:read', 'product:read', 'product:write', 'product:update'])]
+    #[Groups(['price:read', 'product:read', 'product:write'])]
     private ?string $name = null;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write', 'product:update'])]
+    #[Groups(['price:read', 'product:read', 'product:write'])]
     private ?float $price = null;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write', 'product:update'])]
+    #[Groups(['price:read', 'product:read', 'product:write'])]
     private ?float $benefit = null;
 
     #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
@@ -60,7 +60,7 @@ class Price
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'prices', cascade: ['persist'])]
-    #[Groups(['price:read', 'product:read', 'product:write', 'product:update'])]
+    #[Groups(['price:read', 'product:read', 'product:write'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
@@ -68,19 +68,19 @@ class Price
     private Collection $salesProducts;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write', 'product:update'])]
+    #[Groups(['price:read', 'product:read', 'product:write'])]
     private ?float $ursaf = null;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write', 'product:update'])]
+    #[Groups(['price:read', 'product:read', 'product:write'])]
     private ?float $expense = null;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write', 'product:update'])]
+    #[Groups(['price:read', 'product:read', 'product:write'])]
     private ?float $commission = null;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write', 'product:update'])]
+    #[Groups(['price:read', 'product:read', 'product:write'])]
     private ?float $time = null;
 
     public function __construct()

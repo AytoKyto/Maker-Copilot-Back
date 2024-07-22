@@ -19,17 +19,20 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 
 #[ApiResource(
-    paginationEnabled: false,
+    paginationMaximumItemsPerPage: 1000, // Permet jusqu'à 100 résultats par page
+    paginationClientItemsPerPage: true,
     normalizationContext: ['groups' => ['product:read']],
     denormalizationContext: ['groups' => ['product:write']],
     security: "is_granted('ROLE_USER')", // Global access control: only users with ROLE_USER can access
     operations: [
-        new GetCollection(),
-        new Get(),
-        new Post(),
-        new Patch(),
-        new Put(denormalizationContext: ['groups' => ['product:update']]),
-        new Delete(),
+        new GetCollection(
+            forceEager: false
+        ),
+        new Get(forceEager: false),
+        new Post(forceEager: false),
+        new Patch(forceEager: false),
+        new Put(forceEager: false),
+        new Delete(forceEager: false),
     ]
 )]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -40,11 +43,11 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['product:read', 'product:write', 'product:update'])]
+    #[Groups(['product:read', 'product:write'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['product:read', 'product:write', 'product:update'])]
+    #[Groups(['product:read', 'product:write'])]
     private ?string $name = null;
 
     #[Vich\UploadableField(mapping: 'product_images', fileNameProperty: 'imageName')]
@@ -55,15 +58,15 @@ class Product
     private ?string $imageName = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
-    #[Groups(['product:read', 'product:write', 'product:update'])]
+    #[Groups(['product:read', 'product:write'])]
     private ?User $user = null;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'products')]
-    #[Groups(['product:read', 'product:write', 'product:update'])]
+    #[Groups(['product:read', 'product:write'])]
     private Collection $category;
 
-    #[ORM\OneToMany(targetEntity: Price::class, mappedBy: 'product', cascade: ['persist', 'remove'])]
-    #[Groups(['product:read', 'product:write', 'product:update'])]
+    #[ORM\OneToMany(targetEntity: Price::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[Groups(['product:read', 'product:write'])]
     private Collection $prices;
 
     #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]

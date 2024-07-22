@@ -14,6 +14,8 @@ use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Metadata\ApiFilter;
 
 #[ApiResource(
+    paginationMaximumItemsPerPage: 1000, // Permet jusqu'à 100 résultats par page
+    paginationClientItemsPerPage: true,
     normalizationContext: ['groups' => ['sale:read']],
     denormalizationContext: ['groups' => ['sale:write']],
     order: ['createdAt' => 'ASC']
