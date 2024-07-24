@@ -25,7 +25,6 @@ use ApiPlatform\Metadata\GetCollection;
 
 class ViewBenefitMonthCategory
 {
-    #[ORM\Id]
     #[ORM\Column(type: "integer")]
     public int $user_id;
 
@@ -60,5 +59,6 @@ class ViewBenefitMonthCategory
     public string $month;
 
     #[ORM\Column(type: "string", length: 7)]
+    #[ORM\Id]
     public string $date_full;
 }

@@ -23,11 +23,11 @@ use ApiPlatform\Metadata\GetCollection;
 
 class ViewCanalMonth
 {
-    #[ORM\Id]
     #[ORM\Column(type: "integer")]
     public int $user_id;
 
     #[ORM\Column(type: "integer")]
+    #[ORM\Id]
     public int $canal_id;
 
     #[ORM\Column(type: "string", length: 255)]
