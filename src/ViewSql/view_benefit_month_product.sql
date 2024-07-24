@@ -1,4 +1,4 @@
-CREATE VIEW view_benefit_month_product AS
+CREATE OR REPLACE VIEW view_benefit_month_product AS
 SELECT
     sale.user_id,
     sales_product.product_id,

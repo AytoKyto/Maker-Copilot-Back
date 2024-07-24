@@ -20,7 +20,7 @@ use ApiPlatform\Metadata\ApiFilter;
     denormalizationContext: ['groups' => ['sale:write']],
     order: ['createdAt' => 'ASC']
 )]
-#[ApiFilter(OrderFilter::class, properties: ['date_full' => 'DESC', 'price_value' => 'DESC'])]
+#[ApiFilter(OrderFilter::class, properties: ['createdAt' => 'DESC'])]
 #[ORM\Entity(repositoryClass: SaleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class Sale
@@ -35,7 +35,7 @@ class Sale
     #[Groups(['sale:read', 'sale:write'])]
     private ?SalesChannel $canal = null;
 
-    #[ORM\OneToMany(targetEntity: SalesProduct::class, mappedBy: 'sale')]
+    #[ORM\OneToMany(targetEntity: SalesProduct::class, mappedBy: 'sale', cascade: ['persist'], orphanRemoval: true)]
     #[Groups(['sale:read', 'sale:write'])]
     private Collection $salesProducts;
 

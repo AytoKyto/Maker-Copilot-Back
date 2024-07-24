@@ -1,4 +1,4 @@
-CREATE VIEW view_benefit_month AS
+CREATE OR REPLACE VIEW view_benefit_month AS
 SELECT
     user_id,
     IFNULL(SUM(benefit), 0) AS benefit_value,

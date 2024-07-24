@@ -1,4 +1,4 @@
-CREATE VIEW view_canal_month AS
+CREATE OR REPLACE VIEW view_canal_month AS
 SELECT
     sp.name AS name,
     sp.user_id AS user_id,

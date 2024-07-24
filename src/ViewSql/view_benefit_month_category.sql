@@ -1,4 +1,4 @@
-CREATE VIEW view_benefit_month_category AS
+CREATE OR REPLACE VIEW view_benefit_month_category AS
 SELECT
     category.name,
     category.user_id,
