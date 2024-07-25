@@ -15,6 +15,8 @@ use ApiPlatform\Metadata\GetCollection;
 #[ORM\Entity(readOnly: true)]
 #[ORM\Table(name: "view_canal_month_product")]
 #[ApiResource(
+    paginationMaximumItemsPerPage: 1000, // Permet jusqu'à 100 résultats par page
+    paginationClientItemsPerPage: true,
     paginationEnabled: false,
     operations: [
         new GetCollection(),
@@ -23,7 +25,7 @@ use ApiPlatform\Metadata\GetCollection;
 )] 
 #[ApiFilter(SearchFilter::class, properties: ['product_id' => 'exact', 'month' => 'exact', 'years' => 'exact'])]
 #[ApiFilter(RangeFilter::class, properties: ['month', 'years'])]
-#[ApiFilter(OrderFilter::class, properties: ['date_full', 'price_value' => 'DESC'])]
+#[ApiFilter(OrderFilter::class, properties: ['price_value' => 'DESC'])]
 
 class ViewCanalMonthProduct
 {

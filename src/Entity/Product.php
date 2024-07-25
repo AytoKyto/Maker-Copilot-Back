@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\File\File;
 #[ApiResource(
     paginationMaximumItemsPerPage: 1000, // Permet jusqu'à 100 résultats par page
     paginationClientItemsPerPage: true,
-    normalizationContext: ['groups' => ['product:read']],
+    normalizationContext: ['groups' => ['product:read', 'sale:read']],
     denormalizationContext: ['groups' => ['product:write']],
     security: "is_granted('ROLE_USER')", // Global access control: only users with ROLE_USER can access
     operations: [
@@ -43,30 +43,30 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['product:read', 'product:write'])]
+    #[Groups(['product:read', 'product:write', 'sale:read', 'sale:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['product:read', 'product:write'])]
+    #[Groups(['product:read', 'product:write', 'sale:read'])]
     private ?string $name = null;
 
     #[Vich\UploadableField(mapping: 'product_images', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['product:read', 'product:write'])]
+    #[Groups(['product:read', 'product:write', 'sale:read'])]
     private ?string $imageName = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
-    #[Groups(['product:read', 'product:write'])]
+    #[Groups(['product:read', 'product:write', 'sale:read'])]
     private ?User $user = null;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'products')]
-    #[Groups(['product:read', 'product:write'])]
+    #[Groups(['product:read', 'product:write', 'sale:read'])]
     private Collection $category;
 
     #[ORM\OneToMany(targetEntity: Price::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
-    #[Groups(['product:read', 'product:write'])]
+    #[Groups(['product:read', 'product:write', 'sale:read'])]
     private Collection $prices;
 
     #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]

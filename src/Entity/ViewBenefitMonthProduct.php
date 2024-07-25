@@ -16,6 +16,8 @@ use ApiPlatform\Metadata\GetCollection;
 #[ORM\Entity(readOnly: true)]
 #[ORM\Table(name: "view_benefit_month_product")]
 #[ApiResource(
+    paginationMaximumItemsPerPage: 1000, // Permet jusqu'à 100 résultats par page
+    paginationClientItemsPerPage: true,
     paginationEnabled: false,
     operations: [
         new GetCollection(),

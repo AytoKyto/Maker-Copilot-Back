@@ -13,13 +13,15 @@ use ApiPlatform\Metadata\GetCollection;
 #[ORM\Entity(readOnly: true)]
 #[ORM\Table(name: "view_canal_month")]
 #[ApiResource(
+    paginationMaximumItemsPerPage: 1000, // Permet jusqu'à 100 résultats par page
+    paginationClientItemsPerPage: true,
     paginationEnabled: false,
     operations: [
         new GetCollection(),
     ]
 )] 
 #[ApiFilter(RangeFilter::class, properties: ['month', 'years'])]
-#[ApiFilter(OrderFilter::class, properties: ['date_full', 'price_value' => 'DESC'])]
+#[ApiFilter(OrderFilter::class, properties: ['price_value' => 'DESC'])]
 
 class ViewCanalMonth
 {

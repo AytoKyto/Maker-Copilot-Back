@@ -22,7 +22,7 @@ use ApiPlatform\Metadata\GetCollection;
     ]
 )] 
 #[ApiFilter(SearchFilter::class, properties: ['product_id' => 'exact', 'years' => 'exact'])]
-#[ApiFilter(RangeFilter::class, properties: ['month', 'years'])]
+#[ApiFilter(RangeFilter::class, properties: ['years'])]
 #[ApiFilter(OrderFilter::class, properties: ['years' => 'DESC'])]
 
 class ViewCanalYearProduct

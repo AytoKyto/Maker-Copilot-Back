@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\Collection;
 #[ApiResource(
     paginationEnabled: false,
     normalizationContext: ['groups' => ['sale:read', 'sales_channel:read']],
-    denormalizationContext: ['groups' => ['sale:write']],
+    denormalizationContext: ['groups' => ['sale:write', 'sales_channel:write']],
 )]
 #[ORM\Entity(repositoryClass: SalesChannelRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -21,11 +21,11 @@ class SalesChannel
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['sale:read', 'sales_channel:read'])]
+    #[Groups(['sale:read', 'sales_channel:read', 'sales_channel:write'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['sale:read', 'sales_channel:read', 'sale:write'])]
+    #[Groups(['sale:read', 'sales_channel:read', 'sale:write', 'sales_channel:write'])]
     private ?string $name = null;
 
     #[ORM\OneToMany(targetEntity: Sale::class, mappedBy: 'canal')]
@@ -39,7 +39,7 @@ class SalesChannel
     #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[Groups(['sale:read', 'sales_channel:read', 'sale:write'])]
+    #[Groups(['sale:read', 'sales_channel:read', 'sale:write', 'sales_channel:write'])]
     #[ORM\ManyToOne(inversedBy: 'salesChannels')]
     private ?User $user = null;
 

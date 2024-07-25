@@ -12,7 +12,7 @@ SELECT
     IFNULL(
         (SUM(price.benefit) / NULLIF(SUM(price.price), 0)) * 100,
         0
-    ) AS benefit_percent,
+    ) AS benefit_pourcent,
     DATE_FORMAT(sale.created_at, '%Y') AS years
 FROM
     sales_product

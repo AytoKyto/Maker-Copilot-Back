@@ -11,7 +11,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
     paginationEnabled: false,
-    normalizationContext: ['groups' => ['product:read']]
+    normalizationContext: ['groups' => ['product:read']],
+    denormalizationContext: ['groups' => ['category:write']],
 )]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
@@ -19,24 +20,25 @@ class Category
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['product:read'])]
+    #[Groups(['product:read', 'category:write'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['product:read'])]
+    #[Groups(['product:read', 'category:write'])]
     private ?string $name = null;
 
+    #[Groups(['category:write'])]
     #[ORM\ManyToOne(inversedBy: 'categories')]
     private ?User $user = null;
 
     #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'category')]
     private Collection $products;
 
-    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
+    #[ORM\Column]
     #[Groups(['product:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
+    #[ORM\Column]
     #[Groups(['product:read'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
@@ -45,22 +47,6 @@ class Category
         $this->products = new ArrayCollection();
     }
 
-    #[ORM\PrePersist]
-    public function setCreatedAtValue(): void
-    {
-        if ($this->createdAt === null) {
-            $this->createdAt = new \DateTimeImmutable();
-        }
-        if ($this->updatedAt === null) {
-            $this->updatedAt = new \DateTimeImmutable();
-        }
-    }
-
-    #[ORM\PreUpdate]
-    public function setUpdatedAtValue(): void
-    {
-        $this->updatedAt = new \DateTimeImmutable();
-    }
 
     public function getId(): ?int
     {
@@ -126,5 +112,12 @@ class Category
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
     }
 }
