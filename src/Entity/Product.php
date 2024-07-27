@@ -80,6 +80,10 @@ class Product
     #[ORM\OneToMany(targetEntity: SalesProduct::class, mappedBy: 'product')]
     private Collection $salesProducts;
 
+    #[ORM\Column(options: ["default" => false], nullable: true)]
+    #[Groups(['product:read', 'product:write', 'sale:read'])]
+    private ?bool $isArchived = null;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
@@ -239,6 +243,18 @@ class Product
                 $salesProduct->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isIsArchived(): ?bool
+    {
+        return $this->isArchived;
+    }
+
+    public function setIsArchived(?bool $isArchived): static
+    {
+        $this->isArchived = $isArchived;
 
         return $this;
     }

@@ -83,6 +83,10 @@ class Price
     #[Groups(['price:read', 'product:read', 'product:write', 'sale:read'])]
     private ?float $time = null;
 
+    #[ORM\Column(options: ["default" => false], nullable: true)]
+    #[Groups(['product:read', 'product:write', 'sale:read'])]
+    private ?bool $isArchived = null;
+
     public function __construct()
     {
         $this->salesProducts = new ArrayCollection();
@@ -234,6 +238,18 @@ class Price
     public function setTime(float $time): static
     {
         $this->time = $time;
+
+        return $this;
+    }
+
+    public function isIsArchived(): ?bool
+    {
+        return $this->isArchived;
+    }
+
+    public function setIsArchived(?bool $isArchived): static
+    {
+        $this->isArchived = $isArchived;
 
         return $this;
     }
