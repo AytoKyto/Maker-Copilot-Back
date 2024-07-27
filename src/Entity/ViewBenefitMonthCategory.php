@@ -31,6 +31,7 @@ class ViewBenefitMonthCategory
     public int $user_id;
 
     #[ORM\Column(type: "string")]
+    #[ORM\Id]
     public string $name;
 
     #[ORM\Column(type: "float")]
@@ -61,6 +62,5 @@ class ViewBenefitMonthCategory
     public string $month;
 
     #[ORM\Column(type: "string", length: 7)]
-    #[ORM\Id]
     public string $date_full;
 }

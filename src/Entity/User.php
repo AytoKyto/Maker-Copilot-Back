@@ -91,6 +91,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Spent::class, mappedBy: 'user')]
     private Collection $spents;
 
+    #[ORM\Column(nullable: true)]
+    #[Groups(['user:read', 'user:write'])]
+    private ?int $objectifValue = null;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -406,6 +410,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUrssafType(?int $urssafType): static
     {
         $this->urssafType = $urssafType;
+
+        return $this;
+    }
+
+    public function getObjectifValue(): ?int
+    {
+        return $this->objectifValue;
+    }
+
+    public function setObjectifValue(?int $objectifValue): static
+    {
+        $this->objectifValue = $objectifValue;
 
         return $this;
     }
