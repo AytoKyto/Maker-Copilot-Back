@@ -24,7 +24,7 @@ use ApiPlatform\Metadata\GetCollection;
         new Get(),
     ]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['product_id' => 'exact', 'month' => 'exact', 'years' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['product_id' => 'exact', 'month' => 'exact', 'years' => 'exact', 'user_id' => 'exact'])]
 #[ApiFilter(RangeFilter::class, properties: ['month', 'years'])]
 #[ApiFilter(OrderFilter::class, properties: ['date_full', 'price_value' => 'DESC'])]
 

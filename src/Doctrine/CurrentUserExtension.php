@@ -8,7 +8,12 @@ use ApiPlatform\Doctrine\Orm\Extension\QueryItemExtensionInterface;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
 use App\Entity\Product;
+use App\Entity\Category;
+use App\Entity\Sale;
 use App\Entity\User;
+use App\Entity\SalesChannel;
+use App\Entity\SalesProduct;
+use App\Entity\Client;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -35,8 +40,16 @@ final class CurrentUserExtension implements QueryCollectionExtensionInterface, Q
 
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void
     {
+        $controlEntity = [
+            Product::class,
+            Category::class,
+            Sale::class,
+            SalesChannel::class,
+            SalesProduct::class,
+            Client::class,
+        ];
         // Assurez-vous que la classe est bien Product
-        if (Product::class !== $resourceClass) {
+        if (!in_array($resourceClass, $controlEntity)) {
             return;
         }
 

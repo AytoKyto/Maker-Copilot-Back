@@ -24,7 +24,7 @@ use ApiPlatform\Metadata\GetCollection;
         new Get(),
     ]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['product_id' => 'exact', 'years' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['product_id' => 'exact', 'years' => 'exact', 'user_id' => 'exact'])]
 #[ApiFilter(RangeFilter::class, properties: ['years'])]
 #[ApiFilter(OrderFilter::class, properties: ['years' => 'DESC'])]
 

@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\GetCollection;
 
 #[ORM\Entity(readOnly: true)]
@@ -23,6 +24,7 @@ use ApiPlatform\Metadata\GetCollection;
 )]
 #[ApiFilter(RangeFilter::class, properties: ['month', 'years'])]
 #[ApiFilter(OrderFilter::class, properties: ['date_full' => 'DESC'])]
+#[ApiFilter(SearchFilter::class, properties: ['user_id' => 'exact'])]
 
 
 class ViewBenefitMonthCategory
