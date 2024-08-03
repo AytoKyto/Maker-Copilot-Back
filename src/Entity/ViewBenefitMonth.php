@@ -22,9 +22,8 @@ use ApiPlatform\Metadata\GetCollection;
         new GetCollection(),
     ]
 )] 
-#[ApiFilter(RangeFilter::class, properties: ['month', 'years'])]
 #[ApiFilter(OrderFilter::class, properties: ['date_full' => 'DESC'])]
-#[ApiFilter(SearchFilter::class, properties: ['user_id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['month' => 'exact', 'years' => 'exact', 'user_id' => 'exact'])]
 
 
 class ViewBenefitMonth

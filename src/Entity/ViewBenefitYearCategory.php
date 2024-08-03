@@ -1,5 +1,6 @@
 <?php
-// src/Entity/ViewCanalMonth.php
+
+// src/Entity/ViewBenefitYearCategory.php
 
 namespace App\Entity;
 
@@ -12,7 +13,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\GetCollection;
 
 #[ORM\Entity(readOnly: true)]
-#[ORM\Table(name: "view_canal_month")]
+#[ORM\Table(name: "view_benefit_month_category")]
 #[ApiResource(
     paginationMaximumItemsPerPage: 1000, // Permet jusqu'à 100 résultats par page
     paginationClientItemsPerPage: true,
@@ -20,30 +21,31 @@ use ApiPlatform\Metadata\GetCollection;
     operations: [
         new GetCollection(),
     ]
-)] 
-#[ApiFilter(OrderFilter::class, properties: ['price_value' => 'DESC'])]
-#[ApiFilter(SearchFilter::class, properties: ['month' => 'exact', 'years' => 'exact', 'user_id' => 'exact'])]
+)]
+#[ApiFilter(SearchFilter::class, properties: ['category_id' => 'exact', 'years' => 'exact', 'user_id' => 'exact'])]
+#[ApiFilter(OrderFilter::class, properties: ['years' => 'DESC'])]
 
-class ViewCanalMonth
+
+class ViewBenefitYearCategory
 {
     #[ORM\Column(type: "integer")]
     public int $user_id;
 
-    #[ORM\Column(type: "integer")]
+    #[ORM\Column(type: "string")]
     #[ORM\Id]
-    public int $canal_id;
-
-    #[ORM\Column(type: "string", length: 255)]
     public string $name;
+
+    #[ORM\Column(type: "integer")]
+    public int $nb_product;
+
+    #[ORM\Column(type: "integer")]
+    public int $category_id;
 
     #[ORM\Column(type: "float")]
     public float $benefit_value;
 
     #[ORM\Column(type: "float")]
     public float $price_value;
-
-    #[ORM\Column(type: "integer")]
-    public int $nb_product_value;
 
     #[ORM\Column(type: "float")]
     public float $ursaf_value;
@@ -62,10 +64,4 @@ class ViewCanalMonth
 
     #[ORM\Column(type: "string", length: 4)]
     public string $years;
-
-    #[ORM\Column(type: "string", length: 2)]
-    public string $month;
-
-    #[ORM\Column(type: "string", length: 7)]
-    public string $date_full;
 }

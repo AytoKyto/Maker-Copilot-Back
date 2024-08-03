@@ -1,5 +1,5 @@
 <?php
-// src/Entity/ViewCanalMonth.php
+// src/Entity/ViewCanalYearCategory.php
 
 namespace App\Entity;
 
@@ -9,25 +9,30 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 
 #[ORM\Entity(readOnly: true)]
-#[ORM\Table(name: "view_canal_month")]
+#[ORM\Table(name: "view_canal_year_category")]
 #[ApiResource(
     paginationMaximumItemsPerPage: 1000, // Permet jusqu'à 100 résultats par page
     paginationClientItemsPerPage: true,
     paginationEnabled: false,
     operations: [
         new GetCollection(),
+        new Get(),
     ]
 )] 
+#[ApiFilter(SearchFilter::class, properties: ['category_id' => 'exact', 'years' => 'exact', 'user_id' => 'exact'])]
 #[ApiFilter(OrderFilter::class, properties: ['price_value' => 'DESC'])]
-#[ApiFilter(SearchFilter::class, properties: ['month' => 'exact', 'years' => 'exact', 'user_id' => 'exact'])]
 
-class ViewCanalMonth
+class ViewCanalYearCategory
 {
     #[ORM\Column(type: "integer")]
     public int $user_id;
+
+    #[ORM\Column(type: "integer")]
+    public int $category_id;
 
     #[ORM\Column(type: "integer")]
     #[ORM\Id]
@@ -62,10 +67,4 @@ class ViewCanalMonth
 
     #[ORM\Column(type: "string", length: 4)]
     public string $years;
-
-    #[ORM\Column(type: "string", length: 2)]
-    public string $month;
-
-    #[ORM\Column(type: "string", length: 7)]
-    public string $date_full;
 }

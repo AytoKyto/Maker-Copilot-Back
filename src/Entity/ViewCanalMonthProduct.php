@@ -1,5 +1,5 @@
 <?php
-// src/Entity/ViewCanalMonthProduct.php
+// src/Entity/ViewCanalMonthCategory.php
 
 namespace App\Entity;
 
@@ -13,7 +13,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 
 #[ORM\Entity(readOnly: true)]
-#[ORM\Table(name: "view_canal_month_product")]
+#[ORM\Table(name: "view_canal_month_category")]
 #[ApiResource(
     paginationMaximumItemsPerPage: 1000, // Permet jusqu'à 100 résultats par page
     paginationClientItemsPerPage: true,
@@ -24,7 +24,6 @@ use ApiPlatform\Metadata\GetCollection;
     ]
 )] 
 #[ApiFilter(SearchFilter::class, properties: ['product_id' => 'exact', 'month' => 'exact', 'years' => 'exact', 'user_id' => 'exact'])]
-#[ApiFilter(RangeFilter::class, properties: ['month', 'years'])]
 #[ApiFilter(OrderFilter::class, properties: ['price_value' => 'DESC'])]
 
 class ViewCanalMonthProduct
@@ -33,7 +32,7 @@ class ViewCanalMonthProduct
     public int $user_id;
 
     #[ORM\Column(type: "integer")]
-    public int $product_id;
+    public int $category_id;
 
     #[ORM\Column(type: "integer")]
     #[ORM\Id]

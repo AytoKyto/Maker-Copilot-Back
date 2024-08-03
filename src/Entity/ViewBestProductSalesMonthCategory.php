@@ -23,9 +23,9 @@ use ApiPlatform\Metadata\GetCollection;
         new Get(),
     ]
 )] 
-#[ApiFilter(SearchFilter::class, properties: ['product_id' => 'exact','$category_id' => 'exact', 'month' => 'exact', 'years' => 'exact', 'user_id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['product_id' => 'exact','category_id' => 'exact', 'month' => 'exact', 'years' => 'exact', 'user_id' => 'exact'])]
 #[ApiFilter(RangeFilter::class, properties: ['month', 'years'])]
-#[ApiFilter(OrderFilter::class, properties: ['date_full', 'price_value' => 'DESC'])]
+#[ApiFilter(OrderFilter::class, properties: ['classement' => 'DESC', 'price_value' => 'DESC'])]
 
 class ViewBestProductSalesMonthCategory
 {
@@ -43,7 +43,7 @@ class ViewBestProductSalesMonthCategory
     public int $category_id;
 
     #[ORM\Column(type: "string")]
-    public int $product_name;
+    public string $product_name;
 
     #[ORM\Column(type: "integer")]
     public int $nb_product;
