@@ -44,6 +44,18 @@ class ViewBenefitMonthCanal
     public float $price_value;
 
     #[ORM\Column(type: "float")]
+    public float $ursaf_value;
+
+    #[ORM\Column(type: "float")]
+    public float $expense_value;
+
+    #[ORM\Column(type: "float")]
+    public float $commission_value;
+
+    #[ORM\Column(type: "float")]
+    public float $time_value;
+
+    #[ORM\Column(type: "float")]
     public float $benefit_pourcent;
 
     #[ORM\Column(type: "string", length: 4)]
@@ -52,7 +64,7 @@ class ViewBenefitMonthCanal
     #[ORM\Column(type: "string", length: 2)]
     public string $month;
 
-    #[ORM\Column(type: "string", length: 7)]
     #[ORM\Id]
+    #[ORM\Column(type: "string", length: 7)]
     public string $date_full;
 }

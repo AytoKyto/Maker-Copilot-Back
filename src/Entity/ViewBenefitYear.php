@@ -1,6 +1,6 @@
 <?php
 
-// src/Entity/ViewBenefitYearCanal.php
+// src/Entity/ViewBenefitYear.php
 
 namespace App\Entity;
 
@@ -13,7 +13,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\GetCollection;
 
 #[ORM\Entity(readOnly: true)]
-#[ORM\Table(name: "view_benefit_year_canal")]
+#[ORM\Table(name: "view_benefit_year")]
 #[ApiResource(
     paginationMaximumItemsPerPage: 1000, // Permet jusqu'à 100 résultats par page
     paginationClientItemsPerPage: true,
@@ -23,19 +23,13 @@ use ApiPlatform\Metadata\GetCollection;
     ]
 )] 
 #[ApiFilter(OrderFilter::class, properties: ['date_full' => 'DESC'])]
-#[ApiFilter(SearchFilter::class, properties: ['canal_id' => 'exact', 'years' => 'exact', 'user_id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: [ 'years' => 'exact', 'user_id' => 'exact'])]
 
 
-class ViewBenefitYearCanal
+class ViewBenefitYear
 {
     #[ORM\Column(type: "integer")]
     public int $user_id;
-
-    #[ORM\Column(type: "integer")]
-    public int $canal_id;
-
-    #[ORM\Column(type: "integer")]
-    public int $nb_product;
 
     #[ORM\Column(type: "float")]
     public float $benefit_value;
@@ -44,21 +38,9 @@ class ViewBenefitYearCanal
     public float $price_value;
 
     #[ORM\Column(type: "float")]
-    public float $ursaf_value;
-
-    #[ORM\Column(type: "float")]
-    public float $expense_value;
-
-    #[ORM\Column(type: "float")]
-    public float $commission_value;
-
-    #[ORM\Column(type: "float")]
-    public float $time_value;
-
-    #[ORM\Column(type: "float")]
     public float $benefit_pourcent;
 
-    #[ORM\Column(type: "string", length: 4)]
     #[ORM\Id]
+    #[ORM\Column(type: "string", length: 4)]
     public string $years;
 }

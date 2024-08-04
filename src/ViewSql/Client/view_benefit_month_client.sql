@@ -1,7 +1,7 @@
-CREATE OR REPLACE VIEW view_benefit_month_canal AS
+CREATE OR REPLACE VIEW view_benefit_month_client AS
 SELECT
     sale.user_id,
-    sale.canal_id,
+    sales_product.client_id,
     COUNT(sales_product.product_id) as nb_product,
     IFNULL(SUM(price.benefit), 0) AS benefit_value,
     IFNULL(
@@ -22,7 +22,7 @@ FROM
     LEFT JOIN price ON sales_product.price_id = price.id
 GROUP BY
     sale.user_id,
-    sale.canal_id,
+    sales_product.client_id,
     DATE_FORMAT(sale.created_at, '%Y'),
     DATE_FORMAT(sale.created_at, '%m'),
     DATE_FORMAT(sale.created_at, '%Y-%m');

@@ -1,6 +1,6 @@
 <?php
 
-// src/Entity/ViewBenefitYearCanal.php
+// src/Entity/ViewBenefitYearClient.php
 
 namespace App\Entity;
 
@@ -13,7 +13,7 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\GetCollection;
 
 #[ORM\Entity(readOnly: true)]
-#[ORM\Table(name: "view_benefit_year_canal")]
+#[ORM\Table(name: "view_benefit_year_client")]
 #[ApiResource(
     paginationMaximumItemsPerPage: 1000, // Permet jusqu'à 100 résultats par page
     paginationClientItemsPerPage: true,
@@ -23,16 +23,16 @@ use ApiPlatform\Metadata\GetCollection;
     ]
 )] 
 #[ApiFilter(OrderFilter::class, properties: ['date_full' => 'DESC'])]
-#[ApiFilter(SearchFilter::class, properties: ['canal_id' => 'exact', 'years' => 'exact', 'user_id' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['client_id' => 'exact', 'years' => 'exact', 'user_id' => 'exact'])]
 
 
-class ViewBenefitYearCanal
+class ViewBenefitYearClient
 {
     #[ORM\Column(type: "integer")]
     public int $user_id;
 
     #[ORM\Column(type: "integer")]
-    public int $canal_id;
+    public int $client_id;
 
     #[ORM\Column(type: "integer")]
     public int $nb_product;
