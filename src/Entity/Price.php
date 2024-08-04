@@ -36,19 +36,19 @@ class Price
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write', 'sale:read'])]
+    #[Groups(['price:read', 'price:write', 'product:read', 'product:write', 'sale:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['price:read', 'product:read', 'product:write', 'sale:read'])]
+    #[Groups(['price:read', 'price:write', 'product:read', 'product:write', 'sale:read'])]
     private ?string $name = null;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write', 'sale:read'])]
+    #[Groups(['price:read', 'price:write', 'product:read', 'product:write', 'sale:read'])]
     private ?float $price = null;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write', 'sale:read'])]
+    #[Groups(['price:read', 'price:write', 'product:read', 'product:write', 'sale:read'])]
     private ?float $benefit = null;
 
     #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
@@ -60,7 +60,7 @@ class Price
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'prices', cascade: ['persist'])]
-    #[Groups(['price:read', 'product:read', 'product:write', 'sale:read'])]
+    #[Groups(['price:read', 'price:write', 'product:read', 'product:write', 'sale:read'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
@@ -68,19 +68,19 @@ class Price
     private Collection $salesProducts;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write', 'sale:read'])]
+    #[Groups(['price:read', 'price:write', 'product:read', 'product:write', 'sale:read'])]
     private ?float $ursaf = null;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write', 'sale:read'])]
+    #[Groups(['price:read', 'price:write', 'product:read', 'product:write', 'sale:read'])]
     private ?float $expense = null;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write', 'sale:read'])]
+    #[Groups(['price:read', 'price:write', 'product:read', 'product:write', 'sale:read'])]
     private ?float $commission = null;
 
     #[ORM\Column]
-    #[Groups(['price:read', 'product:read', 'product:write', 'sale:read'])]
+    #[Groups(['price:read', 'price:write', 'product:read', 'product:write', 'sale:read'])]
     private ?float $time = null;
 
     #[ORM\Column(options: ["default" => false], nullable: true)]
