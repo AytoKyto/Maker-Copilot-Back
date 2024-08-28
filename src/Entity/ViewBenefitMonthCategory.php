@@ -13,7 +13,8 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\GetCollection;
 
 #[ORM\Entity(readOnly: true)]
-#[ORM\Table(name: "view_benefit_month_category")]
+#[ORM\Table(name: "view_benefit_month_category", options: ["skip_schema_update" => true])]
+
 #[ApiResource(
     paginationMaximumItemsPerPage: 1000, // Permet jusqu'à 100 résultats par page
     paginationClientItemsPerPage: true,

@@ -27,11 +27,15 @@ class RegistrationController
     #[Route('/register', name: 'register', methods:'POST')]
     public function register(Request $request): JsonResponse
     {
+        $time = new \DateTimeImmutable();
+
         $data = json_decode($request->getContent(), true);
 
         $user = new User();
         $user->setEmail($data['email']);
         $user->setPassword($this->passwordHasher->hashPassword($user, $data['password']));
+        $user->setCreatedAt($time);
+        $user->setUpdatedAt($time);
         $user->setRoles(['ROLE_USER']);
 
         $this->entityManager->persist($user);

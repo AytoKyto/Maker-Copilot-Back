@@ -34,6 +34,7 @@ class JWTCreatedListener
         $data['urssaf_pourcent'] = $user->getUrssafPourcent();
         $data['urssaf_type'] = $user->getUrssafType();
         $data['objectif_value'] = $user->getObjectifValue();
+        $data['type_subscription'] = $user->getTypeSubscription();
 
         // Mettre à jour les données du token
         $event->setData($data);

@@ -51,6 +51,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Assert\NotBlank(groups: ['user:write'])]
     #[Groups(['user:write'])]
+    #[SerializedName('password')]
     private ?string $plainPassword = null;
 
     #[ORM\Column(type: 'json')]
@@ -94,6 +95,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     #[Groups(['user:read', 'user:write'])]
     private ?int $objectifValue = null;
+
+    #[ORM\Column(options: ["default" => 0])]
+    #[Groups(['user:read', 'user:write'])]
+    private ?int $TypeSubscription = null;
 
     public function __construct()
     {
@@ -422,6 +427,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setObjectifValue(?int $objectifValue): static
     {
         $this->objectifValue = $objectifValue;
+
+        return $this;
+    }
+
+    public function getTypeSubscription(): ?int
+    {
+        return $this->TypeSubscription;
+    }
+
+    public function setTypeSubscription(int $TypeSubscription): static
+    {
+        $this->TypeSubscription = $TypeSubscription;
 
         return $this;
     }
