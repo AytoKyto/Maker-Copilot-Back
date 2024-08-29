@@ -98,7 +98,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(options: ["default" => 0])]
     #[Groups(['user:read', 'user:write'])]
-    private ?int $TypeSubscription = null;
+    private ?int $typeSubscription = null;
+
+    #[ORM\Column(options: ["default" => 0])]
+    #[Groups(['user:read', 'user:write'])]
+    private ?float $abatementPourcent = null;
 
     public function __construct()
     {
@@ -433,12 +437,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getTypeSubscription(): ?int
     {
-        return $this->TypeSubscription;
+        return $this->typeSubscription;
     }
 
-    public function setTypeSubscription(int $TypeSubscription): static
+    public function setTypeSubscription(int $typeSubscription): static
     {
-        $this->TypeSubscription = $TypeSubscription;
+        $this->typeSubscription = $typeSubscription;
+
+        return $this;
+    }
+
+    public function getAbatementPourcent(): ?float
+    {
+        return $this->abatementPourcent;
+    }
+
+    public function setAbatementPourcent(?float $abatementPourcent): static
+    {
+        $this->abatementPourcent = $abatementPourcent;
 
         return $this;
     }

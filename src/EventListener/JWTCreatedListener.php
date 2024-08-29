@@ -32,6 +32,7 @@ class JWTCreatedListener
         // Ajouter l'ID de l'utilisateur au token
         $data['id'] = $user->getId();
         $data['urssaf_pourcent'] = $user->getUrssafPourcent();
+        $data['abatement_pourcent'] = $user->getAbatementPourcent();
         $data['urssaf_type'] = $user->getUrssafType();
         $data['objectif_value'] = $user->getObjectifValue();
         $data['type_subscription'] = $user->getTypeSubscription();

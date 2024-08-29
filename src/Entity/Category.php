@@ -15,6 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['category:write']],
 )]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Category
 {
     #[ORM\Id]
@@ -34,11 +35,11 @@ class Category
     #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'category')]
     private Collection $products;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     #[Groups(['product:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     #[Groups(['product:read'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
@@ -46,7 +47,6 @@ class Category
     {
         $this->products = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
@@ -118,6 +118,12 @@ class Category
     public function setCreatedAtValue(): void
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
         $this->updatedAt = new \DateTimeImmutable();
     }
 }
