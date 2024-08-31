@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/src/ViewSql/Category/view_canal_month_category.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/ViewSql/Category/view_canal_year_category.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/ViewSql/view_benefit_month_category.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/ViewSql/view_benefit_year_category.sql" dialect="MySQL" />
+  </component>
+</project>

@@ -17,13 +17,18 @@ class TestEmailController extends AbstractController
         // Adresse email de test, peut être passée en paramètre de requête
         $testEmail = $request->query->get('email', 'test@example.com');
 
+        // Rendre le contenu HTML à partir du template Twig
+        $htmlContent = $this->renderView('email/test_email.html.twig', [
+            // Vous pouvez passer des variables au template ici si nécessaire
+        ]);
+
         // Créer un email de test
         $email = (new Email())
             ->from('no-reply@maker-copilot.com')
-            ->to($testEmail)
+            ->to($testEmail) // Utilisation de l'email passé en paramètre
             ->subject('Email de Test')
             ->text('Ceci est un email de test envoyé depuis Symfony.')
-            ->html('<p>Ceci est un <strong>email de test</strong> envoyé depuis Symfony.</p>');
+            ->html($htmlContent); // Utiliser le contenu HTML du template
 
         // Envoyer l'email
         try {

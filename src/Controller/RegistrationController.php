@@ -13,7 +13,9 @@ use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
-class RegistrationController
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class RegistrationController extends AbstractController
 {
     private $entityManager;
     private $passwordHasher;
@@ -26,7 +28,7 @@ class RegistrationController
         $this->jwtManager = $jwtManager;
     }
 
-    #[Route('/register', name: 'register', methods:'POST')]
+    #[Route('/register', name: 'register', methods: 'POST')]
     public function register(Request $request, MailerInterface $mailer): JsonResponse
     {
         $time = new \DateTimeImmutable();
@@ -38,6 +40,8 @@ class RegistrationController
         $user->setPassword($this->passwordHasher->hashPassword($user, $data['password']));
         $user->setCreatedAt($time);
         $user->setUpdatedAt($time);
+        $user->setTypeSubscription(0);
+        $user->setAbatementPourcent(0);
         $user->setRoles(['ROLE_USER']);
 
         $this->entityManager->persist($user);
@@ -45,12 +49,14 @@ class RegistrationController
 
         $jwt = $this->jwtManager->create($user);
 
+        $htmlContent = $this->renderView('email/test_email.html.twig', []);
+
         // Envoi de l'email de confirmation
         $email = (new Email())
             ->from('no-reply@maker-copilot.com')
             ->to($user->getEmail())
             ->subject('Bienvenue sur Maker Copilot!')
-            ->html('<p>Merci de vous être inscrit sur notre plateforme. Voici votre lien de confirmation : <a href="https://maker-copilot.com/confirm?token='.$jwt.'">Confirmez votre email</a></p>');
+            ->html($htmlContent); // Utiliser le contenu HTML du template
 
         $mailer->send($email);
 
