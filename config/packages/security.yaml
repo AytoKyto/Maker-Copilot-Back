@@ -35,6 +35,8 @@ security:
     - { path: ^/api/test-email, roles: PUBLIC_ACCESS }
     - { path: ^/api/forgot-password, roles: PUBLIC_ACCESS }
     - { path: ^/api/reset-password, roles: IS_AUTHENTICATED_FULLY }
+    - { path: ^/api/contact-email, roles: PUBLIC_ACCESS }
+    - { path: ^/api/contact-testeur, roles: PUBLIC_ACCESS }
     - { path: ^/api/token/refresh, roles: PUBLIC_ACCESS }
     - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
     # - { path: ^/api, roles: PUBLIC_ACCESS }

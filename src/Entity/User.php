@@ -435,6 +435,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    // Different type of sub 
+
+    /*
+    Abonnement Gratuit : 0 : 0€
+    Abonnement Basic : 1 : 5€ / 55€
+    Abonnement Full : 2 : 10€ / 100€
+    Abonnement Basic Testeur : 3 : 3,5€ / 35€ 
+    Abonnement Full Testeur : 4 : 6,5 / 65€
+    Abonnement Full Gratuit : 5 : 0€
+
+    */
+
     public function getTypeSubscription(): ?int
     {
         return $this->typeSubscription;
