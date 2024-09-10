@@ -19,7 +19,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 
 #[ApiResource(
-    paginationMaximumItemsPerPage: 1000, // Permet jusqu'à 100 résultats par page
+    paginationMaximumItemsPerPage: 1000,
     paginationClientItemsPerPage: true,
     normalizationContext: ['groups' => ['product:read', 'sale:read']],
     denormalizationContext: ['groups' => ['product:write']],
