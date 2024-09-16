@@ -32,8 +32,11 @@ class ViewBestProductSalesMonthCategory
     #[ORM\Column(type: "integer")]
     public int $user_id;
 
-    #[ORM\Column(type: "integer")]
     #[ORM\Id]
+    #[ORM\Column(type: "integer")]
+    public int $id;
+
+    #[ORM\Column(type: "integer")]
     public int $classement;
 
     #[ORM\Column(type: "integer")]

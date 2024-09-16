@@ -1,6 +1,7 @@
 CREATE
 OR REPLACE VIEW view_best_product_sales_month AS
 SELECT
+    DATE_FORMAT(MIN(sale.created_at), '%Y-%m') + '-' +sales_product.product_id as id,
     sale.user_id,
     RANK() OVER (
         PARTITION BY DATE_FORMAT(MIN(sale.created_at), '%Y-%m')

@@ -32,10 +32,13 @@ class ViewBestProductSalesYearClient
     #[ORM\Column(type: "integer")]
     public int $user_id;
 
-    #[ORM\Column(type: "integer")]
     #[ORM\Id]
-    public int $classement;
+    #[ORM\Column(type: "integer")]
+    public int $id;
 
+    #[ORM\Column(type: "integer")]
+    public int $classement;
+    
     #[ORM\Column(type: "integer")]
     public int $product_id;
 
