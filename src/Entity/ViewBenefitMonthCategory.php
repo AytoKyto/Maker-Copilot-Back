@@ -24,7 +24,7 @@ use ApiPlatform\Metadata\GetCollection;
     ]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['category_id' => 'exact', 'month' => 'exact', 'years' => 'exact', 'user_id' => 'exact'])]
-#[ApiFilter(OrderFilter::class, properties: ['date_full' => 'DESC'])]
+#[ApiFilter(OrderFilter::class, properties: ['price_value' => 'DESC', 'date_full' => 'DESC'])]
 
 
 class ViewBenefitMonthCategory
@@ -35,6 +35,7 @@ class ViewBenefitMonthCategory
     #[ORM\Column(type: "string")]
     public string $name;
 
+    #[ORM\Id]
     #[ORM\Column(type: "integer")]
     public int $category_id;
 
@@ -68,7 +69,6 @@ class ViewBenefitMonthCategory
     #[ORM\Column(type: "string", length: 2)]
     public string $month;
 
-    #[ORM\Id]
     #[ORM\Column(type: "string", length: 7)]
     public string $date_full;
 }

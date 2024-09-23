@@ -22,7 +22,7 @@ use ApiPlatform\Metadata\GetCollection;
         new GetCollection(),
     ]
 )] 
-#[ApiFilter(OrderFilter::class, properties: ['date_full' => 'DESC'])]
+#[ApiFilter(OrderFilter::class, properties: ['price_value' => 'DESC'])]
 #[ApiFilter(SearchFilter::class, properties: ['canal_id' => 'exact', 'years' => 'exact', 'user_id' => 'exact'])]
 
 

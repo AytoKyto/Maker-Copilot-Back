@@ -33,7 +33,8 @@ use Symfony\Component\HttpFoundation\File\File;
         new Patch(forceEager: false),
         new Put(forceEager: false),
         new Delete(forceEager: false),
-    ]
+    ],
+    order: ['name' => 'ASC']
 )]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[Vich\Uploadable]
