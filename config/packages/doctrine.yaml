@@ -10,6 +10,29 @@ doctrine:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
+        schema_ignore_classes:
+            - App\Entity\ViewBenefitMonth
+            - App\Entity\ViewBenefitMonthCanal
+            - App\Entity\ViewBenefitMonthCategory
+            - App\Entity\ViewBenefitMonthClient
+            - App\Entity\ViewBenefitMonthProduct
+            - App\Entity\ViewBenefitYear
+            - App\Entity\ViewBenefitYearCanal
+            - App\Entity\ViewBenefitYearClient
+            - App\Entity\ViewBenefitYearProduct
+            - App\Entity\ViewBestProductSalesMonth
+            - App\Entity\ViewBestProductSalesMonthCanal
+            - App\Entity\ViewBestProductSalesMonthCategory
+            - App\Entity\ViewBestProductSalesMonthClient
+            - App\Entity\ViewBestProductSalesYear
+            - App\Entity\ViewBestProductSalesYearCanal
+            - App\Entity\ViewBestProductSalesYearCategory
+            - App\Entity\ViewBestProductSalesYearClient
+            - App\Entity\ViewCanalMonth
+            - App\Entity\ViewCanalMonthCategory
+            - App\Entity\ViewCanalMonthProduct
+            - App\Entity\ViewCanalYearCategory
+            - App\Entity\ViewCanalYearProduct
         mappings:
             App:
                 is_bundle: false

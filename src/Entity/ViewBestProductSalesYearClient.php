@@ -13,7 +13,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 
 #[ORM\Entity(readOnly: true)]
-#[ORM\Table(name: "view_best_product_sales_month_client")]
+#[ORM\Table(name: "view_best_product_sales_year_client")]
 #[ApiResource(
     paginationMaximumItemsPerPage: 1000, // Permet jusqu'à 100 résultats par page
     paginationClientItemsPerPage: true,
