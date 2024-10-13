@@ -23,7 +23,6 @@ use Symfony\Component\HttpFoundation\File\File;
     paginationClientItemsPerPage: true,
     normalizationContext: ['groups' => ['product:read', 'sale:read']],
     denormalizationContext: ['groups' => ['product:write']],
-    security: "is_granted('ROLE_USER')", // Global access control: only users with ROLE_USER can access
     operations: [
         new GetCollection(
             forceEager: false

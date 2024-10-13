@@ -19,14 +19,14 @@ class EmailService
         $this->twig = $twig;
     }
 
-    public function sendEmail(string $to, string $subject, string $template, array $context = []): void
+    public function sendEmail(string $from, string $to, string $subject, string $template, array $context = []): void
     {
 
         $htmlTemplate = $this->twig->render($template, $context);
 
 
         $email = (new Email())
-            ->from('no-reply@maker-copilot.com')
+            ->from($from)
             ->to($to)
             ->subject($subject)
             ->html($htmlTemplate);

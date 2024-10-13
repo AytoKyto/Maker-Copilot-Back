@@ -33,6 +33,8 @@ doctrine:
             - App\Entity\ViewCanalMonthProduct
             - App\Entity\ViewCanalYearCategory
             - App\Entity\ViewCanalYearProduct
+        resolve_target_entities:
+            Ayto\NewslaterBundle\Sale\Entity\SaleInterface: App\Entity\Sale
         mappings:
             App:
                 is_bundle: false
