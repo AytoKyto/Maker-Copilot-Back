@@ -12,3 +12,7 @@ upload_product_image:
 
 api_refresh_token:
     path: /api/token/refresh
+
+newsletter_bundle:
+    resource: '@NewslaterBundle/Controller'
+    type: attribute

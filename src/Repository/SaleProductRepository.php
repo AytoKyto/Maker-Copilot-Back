@@ -2,47 +2,37 @@
 
 namespace App\Repository;
 
-use App\Entity\SaleProduct;
+use App\Entity\SalesProduct;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<SaleProduct>
+ * @extends ServiceEntityRepository<SalesProduct>
  *
- * @method SaleProduct|null find($id, $lockMode = null, $lockVersion = null)
- * @method SaleProduct|null findOneBy(array $criteria, array $orderBy = null)
- * @method SaleProduct[]    findAll()
- * @method SaleProduct[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method SalesProduct|null find($id, $lockMode = null, $lockVersion = null)
+ * @method SalesProduct|null findOneBy(array $criteria, array $orderBy = null)
+ * @method SalesProduct[]    findAll()
+ * @method SalesProduct[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class SaleProductRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, SaleProduct::class);
+        parent::__construct($registry, SalesProduct::class);
     }
 
-//    /**
-//     * @return SaleProduct[] Returns an array of SaleProduct objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?SaleProduct
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /**
+     * @return SalesProduct[] Returns an array of Sale objects
+     */
+    public function findSalesProductBetweenDate($startDate, $endDate): array
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.createdAt >= :startDate')
+            ->andWhere('s.createdAt <= :endDate')
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate)
+            ->orderBy('s.createdAt', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

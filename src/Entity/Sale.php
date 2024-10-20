@@ -5,7 +5,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use App\Repository\SaleRepository;
+use App\Repository\SaleProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,7 +24,7 @@ use ApiPlatform\Metadata\ApiFilter;
 )]
 #[ApiFilter(OrderFilter::class, properties: ['createdAt' => 'DESC'])]
 #[ApiFilter(SearchFilter::class, properties: ['$canal' => 'exact'])]
-#[ORM\Entity(repositoryClass: SaleRepository::class)]
+#[ORM\Entity(repositoryClass: SaleProductRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class Sale
 {
