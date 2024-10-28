@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,6 +28,8 @@ class RapportDataController extends AbstractController
     /**
      * @param Request $request
      * @param SerializerInterface $serializer
+     * @param JWTTokenManagerInterface $jwtManager
+     * @param Security $security
      * @return JsonResponse
      */
     public function __invoke(Request  $request, SerializerInterface $serializer, JWTTokenManagerInterface $jwtManager,
@@ -38,7 +41,7 @@ class RapportDataController extends AbstractController
         $user = $security->getUser();
 
         if (!$user) {
-            return new JsonResponse(['error' => 'User not authenticated'], JsonResponse::HTTP_UNAUTHORIZED);
+            return new JsonResponse(['error' => 'User not authenticated'], Response::HTTP_UNAUTHORIZED);
         }
 
         $userId = $user->getId();

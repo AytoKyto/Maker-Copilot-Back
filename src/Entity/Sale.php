@@ -15,12 +15,12 @@ use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Metadata\ApiFilter;
 
 #[ApiResource(
-    paginationMaximumItemsPerPage: 1000, // Permet jusqu'à 100 résultats par page
-    paginationClientItemsPerPage: true,
-    forceEager: false,
-    normalizationContext: ['groups' => ['sale:read']],
+    normalizationContext: ['groups' => ['sale:read']], // Permet jusqu'à 100 résultats par page
     denormalizationContext: ['groups' => ['sale:write']],
-    order: ['createdAt' => 'ASC']
+    order: ['createdAt' => 'ASC'],
+    forceEager: false,
+    paginationClientItemsPerPage: true,
+    paginationMaximumItemsPerPage: 1000
 )]
 #[ApiFilter(OrderFilter::class, properties: ['createdAt' => 'DESC'])]
 #[ApiFilter(SearchFilter::class, properties: ['$canal' => 'exact'])]

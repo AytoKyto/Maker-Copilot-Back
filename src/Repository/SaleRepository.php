@@ -30,10 +30,8 @@ class SaleRepository extends ServiceEntityRepository
             ->join('s.salesProducts', 'sp')
             ->andWhere('s.createdAt >= :startDate')
             ->andWhere('s.createdAt <= :endDate')
-            ->andWhere('s.user = :userId')
             ->setParameter('startDate', $startDate)
             ->setParameter('endDate', $endDate)
-            ->setParameter('userId', $userId)
             ->orderBy('s.createdAt', 'ASC')
             ->getQuery()
             ->getResult();
@@ -59,10 +57,8 @@ class SaleRepository extends ServiceEntityRepository
             ->join('sp.product', 'p')
             ->andWhere('s.createdAt >= :startDate')
             ->andWhere('s.createdAt <= :endDate')
-            ->andWhere('s.user = :userId')
             ->setParameter('startDate', $startDate)
             ->setParameter('endDate', $endDate)
-            ->setParameter('userId', $userId)
             ->groupBy('product_id')
             ->orderBy('nb_product', 'DESC');
 
@@ -90,10 +86,8 @@ class SaleRepository extends ServiceEntityRepository
             ->join('s.canal', 'c')
             ->andWhere('s.createdAt >= :startDate')
             ->andWhere('s.createdAt <= :endDate')
-            ->andWhere('s.user = :userId')
             ->setParameter('startDate', $startDate)
             ->setParameter('endDate', $endDate)
-            ->setParameter('userId', $userId)
             ->groupBy('canal_id')
             ->orderBy('nb_product', 'DESC');
 
@@ -118,11 +112,8 @@ class SaleRepository extends ServiceEntityRepository
             ->join('sp.client', 'c')
             ->andWhere('s.createdAt >= :startDate')
             ->andWhere('s.createdAt <= :endDate')
-            ->andWhere('s.user = :userId')
             ->setParameter('startDate', $startDate)
             ->setParameter('endDate', $endDate)
-            ->setParameter('userId', $userId)
-            ->groupBy('client_id')
             ->orderBy('nb_product', 'DESC');
 
         return $qb->getQuery()->getResult();

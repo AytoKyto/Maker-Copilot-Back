@@ -17,7 +17,6 @@ use App\Entity\Client;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
-use ApiPlatform\Doctrine\Orm\Paginator;
 
 final class CurrentUserExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {
@@ -48,15 +47,12 @@ final class CurrentUserExtension implements QueryCollectionExtensionInterface, Q
             SalesProduct::class,
             Client::class,
         ];
-        // Assurez-vous que la classe est bien Product
         if (!in_array($resourceClass, $controlEntity)) {
             return;
         }
 
-        // Récupérer l'utilisateur authentifié
         $user = $this->security->getUser();
 
-        // Vérifiez si l'utilisateur est bien une instance de User
         if (!$user instanceof UserInterface || !$user instanceof User) {
             return;
         }
