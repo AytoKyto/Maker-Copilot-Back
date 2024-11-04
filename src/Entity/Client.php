@@ -40,7 +40,7 @@ class Client
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'clients')]
-    #[Groups(['client:read', 'client:write', 'sale:read'])]
+    #[Groups(['client:read', 'client:write'])]
     private ?User $user = null;
 
     public function __construct()

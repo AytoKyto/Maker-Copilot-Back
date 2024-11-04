@@ -15,15 +15,15 @@ use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Metadata\ApiFilter;
 
 #[ApiResource(
-    paginationMaximumItemsPerPage: 1000, // Permet jusqu'à 100 résultats par page
-    paginationClientItemsPerPage: true,
-    forceEager: false,
     normalizationContext: ['groups' => ['sale:read']],
     denormalizationContext: ['groups' => ['sale:write']],
-    order: ['createdAt' => 'ASC']
+    order: ['createdAt' => 'ASC'],
+    forceEager: false,
+    paginationClientItemsPerPage: true,
+    paginationMaximumItemsPerPage: 1000
 )]
 #[ApiFilter(OrderFilter::class, properties: ['createdAt' => 'DESC'])]
-#[ApiFilter(SearchFilter::class, properties: ['$canal' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['canal' => 'exact'])]
 #[ORM\Entity(repositoryClass: SaleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class Sale
@@ -55,14 +55,14 @@ class Sale
     private ?float $nbProduct = null;
 
     #[ORM\ManyToOne(inversedBy: 'sales')]
-    #[Groups(['sale:read', 'sale:write'])]
+    #[Groups(['sale:read', 'sale:write', 'sale:collection:get'])]
     private ?User $user = null;
 
-    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
-    #[Groups(['sale:read'])]
+    #[Groups(['sale:read', 'sale:write', 'sale:collection:get'])]
+    #[ORM\Column(nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
+    #[ORM\Column(nullable: true, options: ["default" => "CURRENT_TIMESTAMP"])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]
@@ -99,7 +99,15 @@ class Sale
         if ($this->updatedAt === null) {
             $this->updatedAt = new \DateTimeImmutable();
         }
+
         $this->nbProduct = $this->nbProduct ?? 0;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     #[ORM\PreUpdate]

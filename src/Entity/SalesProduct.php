@@ -6,38 +6,41 @@ use App\Repository\SalesProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\GetCollection;
 
 #[ApiResource(
-    paginationEnabled: false,
     normalizationContext: ['groups' => ['sale:read']],
     denormalizationContext: ['groups' => ['sale:write']],
+    paginationEnabled: false,
 )]
+#[GetCollection(normalizationContext: ['groups' => 'sale:collection:get'])]
 #[ORM\Entity(repositoryClass: SalesProductRepository::class)]
 class SalesProduct
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['sale:read', 'sale:write'])]
+    #[Groups(['sale:read', 'sale:write', 'sale:collection:get'])]
     private ?int $id = null;
 
+    #[Groups(['sale:collection:get'])]
     #[ORM\ManyToOne(inversedBy: 'salesProducts')]
     private ?Sale $sale = null;
 
-    #[Groups(['sale:read', 'sale:write'])]
+    #[Groups(['sale:read', 'sale:write', 'sale:collection:get'])]
     #[ORM\ManyToOne(inversedBy: 'salesProducts')]
     private ?Product $product = null;
 
-    #[Groups(['sale:read', 'sale:write'])]
+    #[Groups(['sale:read', 'sale:write', 'sale:collection:get'])]
     #[ORM\ManyToOne(inversedBy: 'salesProducts')]
     private ?Price $price = null;
 
-    #[Groups(['sale:read', 'sale:write'])]
+    #[Groups(['sale:read', 'sale:write', 'sale:collection:get'])]
     #[ORM\ManyToOne(inversedBy: 'salesProducts')]
     private ?Client $client = null;
 
     #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
-    #[Groups(['sale:read'])]
+    #[Groups(['sale:read', 'sale:collection:get'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
