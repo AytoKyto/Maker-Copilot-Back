@@ -4,60 +4,62 @@
 
 namespace App\Controller;
 
-use Symfony\Component\Mime\Email;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Ayto\NewslaterBundle\Request\FeedbackRequest;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Ayto\NewslaterBundle\Service\Mail\EmailService;
+use Ayto\NewslaterBundle\Service\Mail\EmailTemplates;
 
 class FeedBackController extends AbstractController
 {
+
+    private EmailService $emailService;
+
+    public function __construct(
+        EmailService $emailService,
+    ) {
+        $this->emailService = $emailService;
+    }
+
     #[Route('/api/feedback', name: 'feedback', methods: ['POST'])]
-    public function sendContactEmail(MailerInterface $mailer, Request $request): JsonResponse
+    public function sendContactEmail(Request $request, ValidatorInterface $validator): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        $user_id = $data['user_id'];
-        $user_email = $data['user_email'];
-        $type = $data['type'];
-        $message = $data['message'];
 
+        $feedbackRequest = new FeedbackRequest(
+            $data['user_id'] ?? null,
+            $data['user_email'] ?? '',
+            $data['type'] ?? '',
+            $data['message'] ?? ''
+        );
 
-        // Générer le contenu HTML pour l'email destiné à l'utilisateur
-        $htmlContentUser = $this->renderView('email/feedback_email.html.twig', []);
+        $errors = $validator->validate($feedbackRequest);
 
-        // Générer le contenu HTML pour l'email destiné à vous (administrateur)
-        $htmlContentMe = $this->renderView('email/feedback_testeur_me.html.twig', [
-            'user_id' => $user_id,
-            'user_email' => $user_email,
-            'type' => $type,
-            'message' => $message,
-        ]);
+        if (count($errors) > 0) {
+            $errorMessages = [];
+            foreach ($errors as $error) {
+                $errorMessages[] = $error->getMessage();
+            }
 
-        // Créer l'email pour l'utilisateur
-        $userEmail = (new Email())
-            ->from('no-reply@maker-copilot.com')
-            ->to($user_email) // Envoi à l'utilisateur
-            ->subject('Confirmation de réception de votre demande sur Maker Copilot')
-            ->html($htmlContentUser); // Utiliser le contenu HTML du template
+            return new JsonResponse(['status' => 'error', 'errors' => $errorMessages], JsonResponse::HTTP_BAD_REQUEST);
+        }
 
-        // Créer l'email pour l'administrateur
-        $adminEmail = (new Email())
-            ->from('no-reply@maker-copilot.com')
-            ->to('m.fleury942@gmail.com') // Envoi à l'administrateur principal
-            ->addTo('contact@maker-copilot.com') // Ajout d'un autre destinataire
-            ->subject('Message formulaire de contact home page Maker Copilot')
-            ->html($htmlContentMe); // Utiliser le contenu HTML du template
+        $user_id = $feedbackRequest->getUserId();
+        $user_email = $feedbackRequest->getUserEmail();
+        $type = $feedbackRequest->getType();
+        $message = $feedbackRequest->getMessage();
 
-
-        // Envoyer les emails
         try {
-            // Envoyer l'email à l'utilisateur
-            $mailer->send($userEmail);
-
-            // Envoyer l'email à l'administrateur
-            $mailer->send($adminEmail);
-
+            $this->emailService->sendEmail('no-reply@maker-copilot.com', $user_email, 'Confirmation de réception de votre demande sur Maker Copilot', EmailTemplates::FEEDBACK_EMAIL, []);
+            $this->emailService->sendEmail('no-reply@maker-copilot.com', $user_email, 'Message formulaire de contact home page Maker Copilot', EmailTemplates::FEEDBACK_EMAIL_TESTEUR, [
+                'user_id' => $user_id,
+                'user_email' => $user_email,
+                'type' => $type,
+                'message' => $message,
+            ]);
             return new JsonResponse(['status' => 'success', 'message' => 'Les emails ont été envoyés avec succès.'], JsonResponse::HTTP_OK);
         } catch (\Exception $e) {
             return new JsonResponse(['status' => 'error', 'message' => 'Erreur lors de l\'envoi de l\'email : ' . $e->getMessage()], JsonResponse::HTTP_INTERNAL_SERVER_ERROR);

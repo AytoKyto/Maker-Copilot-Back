@@ -2,14 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use App\Repository\SaleRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
@@ -20,13 +18,10 @@ class RapportDataController extends AbstractController
 {
     private EntityManagerInterface $em;
     private SaleRepository $saleRepository;
-    private Security $security;
 
-    public function __construct(EntityManagerInterface $em, SaleRepository $saleRepository, Security $security)
     {
         $this->em = $em;
         $this->saleRepository = $saleRepository;
-        $this->security = $security;
     }
 
     /**
@@ -42,7 +37,6 @@ class RapportDataController extends AbstractController
         $date1 = $request->query->get('date1');
         $date2 = $request->query->get('date2');
 
-        $user = $this->security->getUser();
 
         if (!$user) {
             return new JsonResponse(['error' => 'User not authenticated'], Response::HTTP_UNAUTHORIZED);

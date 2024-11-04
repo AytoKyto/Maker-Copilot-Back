@@ -23,4 +23,5 @@ api_platform:
                 name: Authorization
                 type: header
     eager_loading:
-        max_joins: 50
+        max_joins: 9000
+

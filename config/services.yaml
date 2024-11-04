@@ -4,6 +4,7 @@ services:
   _defaults:
     autowire: true # Automatically injects dependencies in your services.
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    public: false
 
   App\:
     resource: "../src/"
@@ -14,7 +15,7 @@ services:
   App\Controller\:
     resource: '../src/Controller'
     tags: [ 'controller.service_arguments' ]
-    public: true
+    public: false
 
   App\State\UserPasswordHasher:
     bind:

@@ -1,9 +1,9 @@
-CREATE
-OR REPLACE VIEW view_best_product_sales_month AS
+CREATE OR REPLACE VIEW view_best_product_sales_month AS
 SELECT
+    CONCAT(DATE_FORMAT(MIN(sale.created_at), '%Y-%m'), '-', sales_product.product_id) AS id,
     sale.user_id,
     RANK() OVER (
-        PARTITION BY DATE_FORMAT(MIN(sale.created_at), '%Y-%m')
+        PARTITION BY DATE_FORMAT(sale.created_at, '%Y-%m')
         ORDER BY
             COUNT(sales_product.product_id) DESC
     ) AS classement,

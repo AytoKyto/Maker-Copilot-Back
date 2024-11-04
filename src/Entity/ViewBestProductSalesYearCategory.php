@@ -13,7 +13,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 
 #[ORM\Entity(readOnly: true)]
-#[ORM\Table(name: "view_best_product_sales_month_category")]
+#[ORM\Table(name: "view_best_product_sales_year_category")]
 #[ApiResource(
     paginationMaximumItemsPerPage: 1000, // Permet jusqu'à 100 résultats par page
     paginationClientItemsPerPage: true,
@@ -32,8 +32,11 @@ class ViewBestProductSalesYearCategory
     #[ORM\Column(type: "integer")]
     public int $user_id;
 
-    #[ORM\Column(type: "integer")]
     #[ORM\Id]
+    #[ORM\Column(type: "integer")]
+    public int $id;
+
+    #[ORM\Column(type: "integer")]
     public int $classement;
 
     #[ORM\Column(type: "integer")]

@@ -3,7 +3,7 @@ SELECT
     category.name,
     category.id AS category_id,
     category.user_id,
-    COUNT(sales_product.product_id) as nb_product,
+    COUNT(sales_product.product_id) AS nb_product,
     IFNULL(SUM(price.benefit), 0) AS benefit_value,
     IFNULL(SUM(price.price), 0) AS price_value,
     IFNULL(AVG(price.ursaf), 0) AS ursaf_value,
@@ -11,9 +11,9 @@ SELECT
     IFNULL(AVG(price.commission), 0) AS commission_value,
     IFNULL(SUM(price.time), 0) AS time_value,
     IFNULL((SUM(price.benefit) / SUM(price.price)) * 100, 0) AS benefit_pourcent,
-    DATE_FORMAT(sale.created_at, '%Y') AS years,
-    DATE_FORMAT(sale.created_at, '%m') AS month,
-    DATE_FORMAT(sale.created_at, '%Y-%m') AS date_full
+    DATE_FORMAT(MIN(sale.created_at), '%Y') AS years,
+    DATE_FORMAT(MIN(sale.created_at), '%m') AS month,
+    DATE_FORMAT(MIN(sale.created_at), '%Y-%m') AS date_full
 FROM
     category
     LEFT JOIN product_category ON category.id = product_category.category_id
@@ -23,6 +23,4 @@ FROM
 GROUP BY
     category.user_id,
     category.id,
-    DATE_FORMAT(sale.created_at, '%Y'),
-    DATE_FORMAT(sale.created_at, '%m'),
-    DATE_FORMAT(sale.created_at, '%Y-%m');
+    category.name;

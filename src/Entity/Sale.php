@@ -15,15 +15,15 @@ use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Metadata\ApiFilter;
 
 #[ApiResource(
+    paginationMaximumItemsPerPage: 1000, // Permet jusqu'à 100 résultats par page
+    paginationClientItemsPerPage: true,
+    forceEager: false,
     normalizationContext: ['groups' => ['sale:read']],
     denormalizationContext: ['groups' => ['sale:write']],
-    order: ['createdAt' => 'ASC'],
-    forceEager: false,
-    paginationClientItemsPerPage: true,
-    paginationMaximumItemsPerPage: 1000
+    order: ['createdAt' => 'ASC']
 )]
 #[ApiFilter(OrderFilter::class, properties: ['createdAt' => 'DESC'])]
-#[ApiFilter(SearchFilter::class, properties: ['canal' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['$canal' => 'exact'])]
 #[ORM\Entity(repositoryClass: SaleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class Sale
@@ -55,14 +55,14 @@ class Sale
     private ?float $nbProduct = null;
 
     #[ORM\ManyToOne(inversedBy: 'sales')]
-    #[Groups(['sale:read', 'sale:write', 'sale:collection:get'])]
+    #[Groups(['sale:read', 'sale:write'])]
     private ?User $user = null;
 
-    #[Groups(['sale:read', 'sale:write', 'sale:collection:get'])]
-    #[ORM\Column(nullable: false, options: ["default" => "CURRENT_TIMESTAMP"])]
+    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
+    #[Groups(['sale:read'])]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(nullable: true, options: ["default" => "CURRENT_TIMESTAMP"])]
+    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"], nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column]
@@ -100,13 +100,6 @@ class Sale
             $this->updatedAt = new \DateTimeImmutable();
         }
         $this->nbProduct = $this->nbProduct ?? 0;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
     }
 
     #[ORM\PreUpdate]
