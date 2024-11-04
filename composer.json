@@ -6,7 +6,7 @@
     "repositories": [
         {
             "type": "path",
-            "url": "../symfony_bundle/newslater_bundle"
+            "url": "https://gitlab.com/symfony_bundle/newslater_bundle.git"
         }
     ],
     "require": {
