@@ -99,7 +99,6 @@ class Sale
         if ($this->updatedAt === null) {
             $this->updatedAt = new \DateTimeImmutable();
         }
-
         $this->nbProduct = $this->nbProduct ?? 0;
     }
 
