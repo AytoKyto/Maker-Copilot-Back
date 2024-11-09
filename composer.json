@@ -21,6 +21,7 @@
         "doctrine/orm": "^3.2",
         "dragonmantank/cron-expression": "^3.4",
         "gesdinet/jwt-refresh-token-bundle": "^1.3",
+        "guzzlehttp/guzzle": "*",
         "lcobucci/clock": "^3.0",
         "lexik/jwt-authentication-bundle": "2.21.0",
         "nelmio/cors-bundle": "^2.5",
